@@ -21,17 +21,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "vite": "tsc && npx vite",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
-  },
-  "dependencies": {
-    "vite": "^7.3.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.1",
     "@types/node": "^25.0.2",
     "eslint": "^9.39.2",
     "eslint-plugin-format": "^1.1.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   }
 }

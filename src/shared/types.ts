@@ -8,7 +8,7 @@ export type vastFileExplorerOptions = {
   rootPath?: string;
 };
 
-export type ServerRoutesMethod = "GET" | "POST";
+export type ServerRoutesMethod = NonNullable<IncomingMessage["method"]>;
 
 export type ServerRouteHandler = (req: Connect.IncomingMessage, res: ServerResponse<IncomingMessage>) => void;
 

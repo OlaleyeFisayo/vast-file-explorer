@@ -12,6 +12,7 @@ export default antfu({
   ignores: [
     "**/docs/*",
     "**/dist/*",
+    "./vite.config.ts"
   ],
 }, {
   files: ["**/*.{js,jsx,ts,tsx}"],
