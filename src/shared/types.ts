@@ -6,6 +6,7 @@ import type { Connect } from "vite";
 
 export type vastFileExplorerOptions = {
   rootPath?: string;
+  hiddenFiles?: Array<string>;
 };
 
 export type ServerRoutesMethod = NonNullable<IncomingMessage["method"]>;
