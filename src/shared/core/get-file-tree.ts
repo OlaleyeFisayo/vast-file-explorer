@@ -1,16 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import type { vastFileExplorerOptions } from "../types";
+import type {
+  FileTreeNode,
+  vastFileExplorerOptions,
+} from "../types";
 
 type GetFileTreeOptions = {
   hiddenFiles: vastFileExplorerOptions["hiddenFiles"];
-};
-
-type FileTreeNode = {
-  name: string;
-  path: string;
-  type: "file" | "directory";
 };
 
 export async function getFileTree(dirPath: string, options?: GetFileTreeOptions): Promise<FileTreeNode[]> {

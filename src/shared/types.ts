@@ -18,3 +18,9 @@ export type ServerRoutes = {
   method: ServerRoutesMethod;
   handler: ServerRouteHandler;
 };
+
+export type FileTreeNode = {
+  name: string;
+  path: string;
+  type: "file" | "directory";
+};
