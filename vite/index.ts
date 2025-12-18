@@ -10,7 +10,7 @@ import { getFileTree } from "../shared/core/get-file-tree";
 import { vastFileExplorerRoutes } from "../shared/server/routes";
 import { vastFileExplorerOptionsDefault } from "../shared/variables";
 
-export function vastFileExplorer(userOptions: vastFileExplorerOptions): Plugin {
+export function vastFileExplorer(userOptions?: vastFileExplorerOptions): Plugin {
   let fileTree: FileTreeNode[] = [];
 
   const options = {
@@ -28,7 +28,7 @@ export function vastFileExplorer(userOptions: vastFileExplorerOptions): Plugin {
     },
     async buildStart() {
       fileTree = await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
-      // console.log(fileTree);
+      console.log(fileTree);
     },
   };
 };
