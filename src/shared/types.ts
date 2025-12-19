@@ -11,7 +11,7 @@ export type vastFileExplorerOptions = {
 
 export type ServerRoutesMethod = NonNullable<IncomingMessage["method"]>;
 
-export type ServerRouteHandler = (req: Connect.IncomingMessage, res: ServerResponse<IncomingMessage>) => void;
+export type ServerRouteHandler<T = void> = (req: Connect.IncomingMessage, res: ServerResponse<IncomingMessage>) => T;
 
 export type ServerRoutes = {
   path: string;
@@ -19,8 +19,17 @@ export type ServerRoutes = {
   handler: ServerRouteHandler;
 };
 
+export type FileType = {
+  type: "file";
+};
+
+export type DirectoryType = {
+  type: "directory";
+  children: FileTreeNode[];
+  expanded: boolean;
+};
+
 export type FileTreeNode = {
   name: string;
   path: string;
-  type: "file" | "directory";
-};
+} & (FileType | DirectoryType);

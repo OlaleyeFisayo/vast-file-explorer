@@ -19,7 +19,13 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
       const node: FileTreeNode = {
         name: entry.name,
         path: fullPath,
-        type: entry.isDirectory() ? "directory" : "file",
+        ...(entry.isDirectory()
+          ? {
+              type: "directory",
+              children: [],
+              expanded: false,
+            }
+          : { type: "file" }),
       };
 
       if (options?.hiddenFiles && options.hiddenFiles.length > 0 && options.hiddenFiles.includes(entry.name)) {
