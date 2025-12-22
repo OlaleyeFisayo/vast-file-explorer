@@ -2,7 +2,6 @@ import type { Plugin } from "vite";
 
 import type { vastFileExplorerOptions } from "../shared/types";
 
-import fileTree from "..";
 import { getFileTree } from "../shared/core/get-file-tree";
 import { addToFileTree } from "../shared/utils/add-to-file-tree";
 import { vastFileExplorerOptionsDefault } from "../shared/variables";
@@ -18,7 +17,6 @@ export function vastFileExplorer(userOptions?: vastFileExplorerOptions): Plugin 
     async buildStart() {
       const nodes = await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
       addToFileTree(nodes);
-      console.log(fileTree);
     },
   };
 };
