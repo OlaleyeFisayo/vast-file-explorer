@@ -4,6 +4,7 @@ import type { vastFileExplorerOptions } from "../shared/types";
 
 import fileTree from "..";
 import { getFileTree } from "../shared/core/get-file-tree";
+import { addToFileTree } from "../shared/utils/add-to-file-tree";
 import { vastFileExplorerOptionsDefault } from "../shared/variables";
 
 export function vastFileExplorer(userOptions?: vastFileExplorerOptions): Plugin {
@@ -15,8 +16,9 @@ export function vastFileExplorer(userOptions?: vastFileExplorerOptions): Plugin 
   return {
     name: "vast-file-explorer",
     async buildStart() {
-      const result = await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
-      fileTree.push(...result);
+      const nodes = await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
+      addToFileTree(nodes);
+      console.log(fileTree);
     },
   };
 };

@@ -1,5 +1,5 @@
 import type { FileTreeNode } from "./shared/types";
 
-const fileTree: Array<FileTreeNode> = [];
+const fileTree = new Map<string, FileTreeNode>();
 
 export default fileTree;
