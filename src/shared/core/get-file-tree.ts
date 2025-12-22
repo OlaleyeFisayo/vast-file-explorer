@@ -15,11 +15,13 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
     const entries = await fs.readdir(dirPath, { withFileTypes: true });
     const fileTree: FileTreeNode[] = [];
     for (const entry of entries) {
-      const fullPath = path.join(dirPath, entry.name);
+      const parentPath = entry.parentPath;
+      const fullPath = path.join(parentPath, entry.name);
+      const isDirectory = entry.isDirectory();
       const node: FileTreeNode = {
         name: entry.name,
         path: fullPath,
-        ...(entry.isDirectory()
+        ...(isDirectory
           ? {
               type: "directory",
               children: [],
