@@ -1,12 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import type {
-  FileTreeNode,
-  VastFileExplorerOptions,
-} from "../../../shared/types";
+import type { VastFileExplorerOptions } from "../../../shared/types";
+import type { FileTreeNode } from "../types";
 
-import { searchIndex } from "../variables";
+import { SearchIndex } from "../variables";
 
 type GetFileTreeOptions = {
   hiddenFiles: VastFileExplorerOptions["hiddenFiles"];
@@ -56,7 +54,7 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
       }
 
       currentLevel.set(node.path, node);
-      searchIndex.set(node.path, node);
+      SearchIndex.set(node.path, node);
     }
   }
   catch (error) {

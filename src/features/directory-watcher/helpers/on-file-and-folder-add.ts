@@ -7,10 +7,10 @@ import type {
 } from "../../../shared/types";
 
 import {
-  searchIndex,
-  uiTree,
+  FileExplorer,
+  SearchIndex,
 } from "../../../shared/variables";
-import { sortFileTreeNodesMap } from "../../file-tree/helpers/sort-file-tree-nodes";
+import { sortFileTreeNodesMap } from "../../file-explorer/helpers/sort-file-tree-nodes";
 
 export function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): void {
   const fileName = path.basename(filePath);
@@ -40,19 +40,19 @@ export function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplor
     };
   }
 
-  searchIndex.set(filePath, newNode);
+  SearchIndex.set(filePath, newNode);
 
   if (path.resolve(parentDir) === path.resolve(userOptions.rootPath!)) {
-    uiTree.set(filePath, newNode);
-    const sorted = sortFileTreeNodesMap(uiTree);
-    uiTree.clear();
+    FileExplorer.set(filePath, newNode);
+    const sorted = sortFileTreeNodesMap(FileExplorer);
+    FileExplorer.clear();
     for (const [key, value] of sorted) {
-      uiTree.set(key, value);
+      FileExplorer.set(key, value);
     }
     return;
   }
 
-  const parentNode = searchIndex.get(parentDir);
+  const parentNode = SearchIndex.get(parentDir);
   if (parentNode && parentNode.type === "directory") {
     parentNode.children.set(filePath, newNode);
     parentNode.children = sortFileTreeNodesMap(parentNode.children);

@@ -3,13 +3,13 @@ import path from "node:path";
 import type { VastFileExplorerOptions } from "../../../shared/types";
 
 import {
-  searchIndex,
-  uiTree,
+  FileExplorer,
+  SearchIndex,
 } from "../../../shared/variables";
 import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
 
 export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExplorerOptions): void {
-  const nodeToDelete = searchIndex.get(filePath);
+  const nodeToDelete = SearchIndex.get(filePath);
 
   if (!nodeToDelete)
     return;
@@ -17,16 +17,16 @@ export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExp
   if (nodeToDelete.type === "directory") {
     removeDescendantsFromIndex(nodeToDelete);
   }
-  searchIndex.delete(filePath);
+  SearchIndex.delete(filePath);
 
   const parentDir = path.dirname(filePath);
 
   if (path.resolve(parentDir) === path.resolve(userOptions.rootPath!)) {
-    uiTree.delete(filePath);
+    FileExplorer.delete(filePath);
     return;
   }
 
-  const parentNode = searchIndex.get(parentDir);
+  const parentNode = SearchIndex.get(parentDir);
   if (parentNode && parentNode.type === "directory") {
     parentNode.children.delete(filePath);
   }

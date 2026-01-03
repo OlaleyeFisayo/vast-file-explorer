@@ -3,8 +3,7 @@ import type { Plugin } from "vite";
 import type { VastFileExplorerOptions } from "../shared/types";
 
 import { rootDirectoryWatcher } from "../features/directory-watcher";
-import { getFileTree } from "../features/file-tree/helpers/get-file-tree";
-import { uiTree } from "../features/file-tree/variables";
+import { initializeFileTree } from "../features/file-explorer/helpers/initialize-file-tree";
 import { vastFileExplorerOptionsDefault } from "../shared/variables";
 
 export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin {
@@ -16,12 +15,7 @@ export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin 
   return {
     name: "vast-file-explorer",
     async buildStart() {
-      const tree = await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
-
-      uiTree.clear();
-      for (const [key, value] of tree) {
-        uiTree.set(key, value);
-      }
+      await initializeFileTree(options);
     },
     configureServer(server) {
       rootDirectoryWatcher(server, options);

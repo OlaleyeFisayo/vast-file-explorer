@@ -1,12 +1,12 @@
-import type { FileTreeNode } from "../../file-tree/types";
+import type { FileTreeNode } from "../../file-explorer/types";
 
-import { searchIndex } from "../../file-tree/variables";
+import { SearchIndex } from "../../file-explorer/variables";
 
 export function removeDescendantsFromIndex(node: FileTreeNode): void {
   if (node.type === "directory") {
     for (const child of node.children.values()) {
       removeDescendantsFromIndex(child);
-      searchIndex.delete(child.path);
+      SearchIndex.delete(child.path);
     }
   }
 }
