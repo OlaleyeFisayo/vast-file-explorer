@@ -5,9 +5,7 @@ import type {
 
 export const vastFileExplorerOptionsDefault: vastFileExplorerOptions = {
   rootPath: "./",
-  hiddenFiles: [],
+  hiddenFiles: ["node_modules", ".git", "dist"],
 };
 
-export const baseURI = "/vast-file-explorer";
-
-export const fileTree: FileTreeNode[] = [];
+export const fileTree = new Map<string, FileTreeNode>();
