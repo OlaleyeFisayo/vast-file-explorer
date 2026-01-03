@@ -4,8 +4,8 @@ import path from "node:path";
 
 import type { VastFileExplorerOptions } from "../../types";
 
-import { uiTree } from "../../variables";
 import { onFileAndFolderAdd } from "./on-file-and-folder-add";
+import { onFileAndFolderDelete } from "./on-file-and-folder-delete";
 
 export function rootDirectoryWatcher(server: ViteDevServer, userOptions: VastFileExplorerOptions): void {
   const rootPath = userOptions.rootPath ? path.resolve(userOptions.rootPath) : process.cwd();
@@ -22,7 +22,10 @@ export function rootDirectoryWatcher(server: ViteDevServer, userOptions: VastFil
       case "addDir":
         onFileAndFolderAdd(absoluteFilePath, userOptions);
         break;
+      case "unlink":
+      case "unlinkDir":
+        onFileAndFolderDelete(absoluteFilePath, userOptions);
+        break;
     }
-    console.log(uiTree);
   });
 }
