@@ -4,7 +4,7 @@ import type {
 } from "node:http";
 import type { Connect } from "vite";
 
-export type vastFileExplorerOptions = {
+export type VastFileExplorerOptions = {
   rootPath?: string;
   hiddenFiles?: Array<string>;
 };

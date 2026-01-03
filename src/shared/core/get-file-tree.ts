@@ -3,25 +3,28 @@ import path from "node:path";
 
 import type {
   FileTreeNode,
-  vastFileExplorerOptions,
+  VastFileExplorerOptions,
 } from "../types";
 
 import { searchIndex } from "../variables";
 
 type GetFileTreeOptions = {
-  hiddenFiles: vastFileExplorerOptions["hiddenFiles"];
+  hiddenFiles: VastFileExplorerOptions["hiddenFiles"];
 };
 
 export async function getFileTree(dirPath: string, options?: GetFileTreeOptions): Promise<Map<string, FileTreeNode>> {
+  const absoluteDirPath = path.resolve(dirPath);
   const currentLevel = new Map<string, FileTreeNode>();
 
   try {
-    const entries = await fs.readdir(dirPath, { withFileTypes: true });
+    const entries = await fs.readdir(absoluteDirPath, { withFileTypes: true });
 
     entries.sort((a, b) => {
-      if (a.isDirectory() && !b.isDirectory())
+      const isADirectory = a.isDirectory();
+      const isBDirectory = b.isDirectory();
+      if (isADirectory && !isBDirectory)
         return -1;
-      if (!a.isDirectory() && b.isDirectory())
+      if (!isADirectory && isBDirectory)
         return 1;
       return a.name.localeCompare(b.name);
     });
@@ -30,16 +33,15 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
       if (options?.hiddenFiles?.includes(entry.name))
         continue;
 
-      const parentPath = entry.parentPath;
-      const relativePath = path.join(parentPath, entry.name);
+      const fullPath = path.join(absoluteDirPath, entry.name);
       const isDirectory = entry.isDirectory();
 
       let node: FileTreeNode;
       if (isDirectory) {
-        const childrenMap = await getFileTree(relativePath, options);
+        const childrenMap = await getFileTree(fullPath, options);
         node = {
           name: entry.name,
-          path: relativePath,
+          path: fullPath,
           type: "directory",
           expanded: false,
           children: childrenMap,
@@ -48,7 +50,7 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
       else {
         node = {
           name: entry.name,
-          path: relativePath,
+          path: fullPath,
           type: "file",
         };
       }
@@ -58,7 +60,7 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
     }
   }
   catch (error) {
-    console.error(`Error reading directory ${dirPath}:`, error);
+    console.error(`Error reading directory ${absoluteDirPath}:`, error);
   }
 
   return currentLevel;
