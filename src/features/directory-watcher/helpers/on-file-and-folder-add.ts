@@ -2,15 +2,14 @@ import { statSync } from "node:fs";
 import path from "node:path";
 
 import type {
-  FileTreeNode,
   VastFileExplorerOptions,
 } from "../../../shared/types";
 
 import {
-  FileExplorer,
-  SearchIndex,
 } from "../../../shared/variables";
 import { sortFileTreeNodesMap } from "../../file-explorer/helpers/sort-file-tree-nodes";
+import { FileTreeNode } from "../../file-explorer/types";
+import { FileExplorer, SearchIndex } from "../../file-explorer/variables";
 
 export function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): void {
   const fileName = path.basename(filePath);

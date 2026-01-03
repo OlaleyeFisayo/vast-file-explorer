@@ -2,11 +2,8 @@ import path from "node:path";
 
 import type { VastFileExplorerOptions } from "../../../shared/types";
 
-import {
-  FileExplorer,
-  SearchIndex,
-} from "../../../shared/variables";
 import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
+import { FileExplorer, SearchIndex } from "../../file-explorer/variables";
 
 export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExplorerOptions): void {
   const nodeToDelete = SearchIndex.get(filePath);
