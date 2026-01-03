@@ -8,4 +8,4 @@ export const vastFileExplorerOptionsDefault: vastFileExplorerOptions = {
   hiddenFiles: ["node_modules", ".git", "dist"],
 };
 
-export const fileTree = new Map<string, FileTreeNode>();
+export const searchIndex = new Map<string, FileTreeNode>();

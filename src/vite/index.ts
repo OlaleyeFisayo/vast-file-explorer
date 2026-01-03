@@ -14,7 +14,8 @@ export function vastFileExplorer(userOptions?: vastFileExplorerOptions): Plugin 
   return {
     name: "vast-file-explorer",
     async buildStart() {
-      await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
+      const uiTree = await getFileTree(options.rootPath!, { hiddenFiles: options.hiddenFiles });
+      console.log(uiTree);
     },
   };
 };

@@ -6,6 +6,8 @@ import type {
   vastFileExplorerOptions,
 } from "../types";
 
+import { searchIndex } from "../variables";
+
 type GetFileTreeOptions = {
   hiddenFiles: vastFileExplorerOptions["hiddenFiles"];
 };
@@ -15,6 +17,15 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
 
   try {
     const entries = await fs.readdir(dirPath, { withFileTypes: true });
+
+    entries.sort((a, b) => {
+      if (a.isDirectory() && !b.isDirectory())
+        return -1;
+      if (!a.isDirectory() && b.isDirectory())
+        return 1;
+      return a.name.localeCompare(b.name);
+    });
+
     for (const entry of entries) {
       if (options?.hiddenFiles?.includes(entry.name))
         continue;
@@ -42,8 +53,8 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
         };
       }
 
-      const nodeKey = `${node.path}-${node.name}`;
-      currentLevel.set(nodeKey, node);
+      currentLevel.set(node.path, node);
+      searchIndex.set(node.path, node);
     }
   }
   catch (error) {
