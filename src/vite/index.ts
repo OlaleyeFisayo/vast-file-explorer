@@ -2,12 +2,10 @@ import type { Plugin } from "vite";
 
 import type { VastFileExplorerOptions } from "../shared/types";
 
-import { getFileTree } from "../shared/core/get-file-tree";
-import { rootDirectoryWatcher } from "../shared/core/root-directory-watcher";
-import {
-  uiTree,
-  vastFileExplorerOptionsDefault,
-} from "../shared/variables";
+import { rootDirectoryWatcher } from "../features/directory-watcher";
+import { getFileTree } from "../features/file-tree/helpers/get-file-tree";
+import { uiTree } from "../features/file-tree/variables";
+import { vastFileExplorerOptionsDefault } from "../shared/variables";
 
 export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin {
   const options = {
@@ -24,7 +22,6 @@ export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin 
       for (const [key, value] of tree) {
         uiTree.set(key, value);
       }
-      console.log(uiTree);
     },
     configureServer(server) {
       rootDirectoryWatcher(server, options);

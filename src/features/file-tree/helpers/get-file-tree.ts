@@ -4,7 +4,7 @@ import path from "node:path";
 import type {
   FileTreeNode,
   VastFileExplorerOptions,
-} from "../types";
+} from "../../../shared/types";
 
 import { searchIndex } from "../variables";
 

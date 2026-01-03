@@ -4,13 +4,13 @@ import path from "node:path";
 import type {
   FileTreeNode,
   VastFileExplorerOptions,
-} from "../../types";
+} from "../../../shared/types";
 
-import { sortFileTreeNodesMap } from "../../utils/sort-file-tree-nodes";
 import {
   searchIndex,
   uiTree,
-} from "../../variables";
+} from "../../../shared/variables";
+import { sortFileTreeNodesMap } from "../../file-tree/helpers/sort-file-tree-nodes";
 
 export function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): void {
   const fileName = path.basename(filePath);

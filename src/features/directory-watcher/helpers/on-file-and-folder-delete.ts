@@ -1,12 +1,12 @@
 import path from "node:path";
 
-import type { VastFileExplorerOptions } from "../../types";
+import type { VastFileExplorerOptions } from "../../../shared/types";
 
-import { removeDescendantsFromIndex } from "../../utils/remove-descendants-from-index";
 import {
   searchIndex,
   uiTree,
-} from "../../variables";
+} from "../../../shared/variables";
+import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
 
 export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExplorerOptions): void {
   const nodeToDelete = searchIndex.get(filePath);

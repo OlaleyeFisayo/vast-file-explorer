@@ -1,6 +1,6 @@
-import type { FileTreeNode } from "../types";
+import type { FileTreeNode } from "../../file-tree/types";
 
-import { searchIndex } from "../variables";
+import { searchIndex } from "../../file-tree/variables";
 
 export function removeDescendantsFromIndex(node: FileTreeNode): void {
   if (node.type === "directory") {
