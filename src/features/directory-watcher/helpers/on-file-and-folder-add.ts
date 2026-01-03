@@ -1,4 +1,4 @@
-import { statSync } from "node:fs";
+import { stat } from "node:fs/promises";
 import path from "node:path";
 
 import type { VastFileExplorerOptions } from "../../../shared/types";
@@ -12,14 +12,15 @@ import {
   SearchIndex,
 } from "../../file-explorer/variables";
 
-export function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): void {
+export async function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): Promise<void> {
   const fileName = path.basename(filePath);
 
   if (userOptions?.hiddenFiles?.includes(fileName))
     return;
 
   const parentDir = path.dirname(filePath);
-  const isDirectory = statSync(filePath).isDirectory();
+  const fileStat = await stat(filePath);
+  const isDirectory = fileStat.isDirectory();
 
   let newNode: FileTreeNode;
 
