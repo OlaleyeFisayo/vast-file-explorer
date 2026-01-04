@@ -1,4 +1,7 @@
-import { stat } from "node:fs/promises";
+import {
+  realpath,
+  stat,
+} from "node:fs/promises";
 import path from "node:path";
 
 import type { VastFileExplorerOptions } from "../../../shared/types";
@@ -13,13 +16,14 @@ import {
 } from "../../file-explorer/variables";
 
 export async function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): Promise<void> {
-  const fileName = path.basename(filePath);
+  const realFilePath = await realpath(filePath);
+  const fileName = path.basename(realFilePath);
 
   if (userOptions?.hiddenFiles?.includes(fileName))
     return;
 
-  const parentDir = path.dirname(filePath);
-  const fileStat = await stat(filePath);
+  const parentDir = path.dirname(realFilePath);
+  const fileStat = await stat(realFilePath);
   const isDirectory = fileStat.isDirectory();
 
   let newNode: FileTreeNode;
@@ -27,7 +31,7 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
   if (isDirectory) {
     newNode = {
       name: fileName,
-      path: filePath,
+      path: realFilePath,
       type: "directory",
       expanded: false,
       childExpanded: false,
@@ -37,15 +41,17 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
   else {
     newNode = {
       name: fileName,
-      path: filePath,
+      path: realFilePath,
       type: "file",
     };
   }
 
-  SearchIndex.set(filePath, newNode);
+  SearchIndex.set(realFilePath, newNode);
 
-  if (path.resolve(parentDir) === path.resolve(userOptions.rootPath!)) {
-    FileTree.set(filePath, newNode);
+  const resolvedRoot = await realpath(path.resolve(userOptions.rootPath || process.cwd()));
+
+  if (path.resolve(parentDir) === resolvedRoot) {
+    FileTree.set(realFilePath, newNode);
     const sorted = sortFileTreeNodesMap(FileTree);
     FileTree.clear();
     for (const [key, value] of sorted) {
@@ -54,9 +60,10 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
     return;
   }
 
-  const parentNode = SearchIndex.get(parentDir);
-  if (parentNode && parentNode.type === "directory") {
-    parentNode.children.set(filePath, newNode);
+  const resolvedParentDir = await realpath(parentDir);
+  const parentNode = SearchIndex.get(resolvedParentDir);
+  if (parentNode && parentNode.type === "directory" && parentNode.expanded) {
+    parentNode.children.set(realFilePath, newNode);
     parentNode.children = sortFileTreeNodesMap(parentNode.children);
   }
 }

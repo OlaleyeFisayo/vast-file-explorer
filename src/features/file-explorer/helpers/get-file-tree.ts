@@ -11,7 +11,7 @@ type GetFileTreeOptions = {
 };
 
 export async function getFileTree(dirPath: string, options?: GetFileTreeOptions): Promise<Map<string, FileTreeNode>> {
-  const absoluteDirPath = path.resolve(dirPath);
+  const absoluteDirPath = await fs.realpath(path.resolve(dirPath));
   const currentLevel = new Map<string, FileTreeNode>();
 
   try {

@@ -1,3 +1,4 @@
+import { realpath } from "node:fs/promises";
 import path from "node:path";
 
 import type { VastFileExplorerOptions } from "../../../shared/types";
@@ -10,7 +11,7 @@ type ExpandDirectoryOptions = {
 };
 
 export async function expandDirectory(dirPath: string, options?: ExpandDirectoryOptions): Promise<void> {
-  const absoluteDirPath = path.resolve(dirPath);
+  const absoluteDirPath = await realpath(path.resolve(dirPath));
   const parentNode = SearchIndex.get(absoluteDirPath);
 
   if (!parentNode || parentNode.type !== "directory") {

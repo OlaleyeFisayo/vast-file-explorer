@@ -1,3 +1,4 @@
+import { realpath } from "node:fs/promises";
 import path from "node:path";
 
 import type { VastFileExplorerOptions } from "../../../shared/types";
@@ -8,8 +9,12 @@ import {
 } from "../../file-explorer/variables";
 import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
 
-export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExplorerOptions): void {
-  const nodeToDelete = SearchIndex.get(filePath);
+export async function onFileAndFolderDelete(filePath: string, userOptions: VastFileExplorerOptions): Promise<void> {
+  const parentDir = path.dirname(filePath);
+  const resolvedParent = await realpath(parentDir);
+  const targetPath = path.join(resolvedParent, path.basename(filePath));
+
+  const nodeToDelete = SearchIndex.get(targetPath);
 
   if (!nodeToDelete)
     return;
@@ -17,17 +22,18 @@ export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExp
   if (nodeToDelete.type === "directory") {
     removeDescendantsFromIndex(nodeToDelete);
   }
-  SearchIndex.delete(filePath);
+  SearchIndex.delete(targetPath);
 
-  const parentDir = path.dirname(filePath);
+  const resolvedRoot = await realpath(path.resolve(userOptions.rootPath || process.cwd()));
 
-  if (path.resolve(parentDir) === path.resolve(userOptions.rootPath!)) {
-    FileTree.delete(filePath);
+  if (path.dirname(targetPath) === resolvedRoot) {
+    FileTree.delete(targetPath);
     return;
   }
 
-  const parentNode = SearchIndex.get(parentDir);
+  const resolvedParentDir = await realpath(parentDir);
+  const parentNode = SearchIndex.get(resolvedParentDir);
   if (parentNode && parentNode.type === "directory") {
-    parentNode.children.delete(filePath);
+    parentNode.children.delete(targetPath);
   }
 }
