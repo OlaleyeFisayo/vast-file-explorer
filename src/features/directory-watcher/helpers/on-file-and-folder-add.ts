@@ -8,7 +8,7 @@ import {
 } from "../../../shared/variables";
 import { sortFileTreeNodesMap } from "../../file-explorer/helpers/sort-file-tree-nodes";
 import {
-  FileExplorer,
+  FileTree,
   SearchIndex,
 } from "../../file-explorer/variables";
 
@@ -30,6 +30,7 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
       path: filePath,
       type: "directory",
       expanded: false,
+      childExpanded: false,
       children: new Map(),
     };
   }
@@ -44,11 +45,11 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
   SearchIndex.set(filePath, newNode);
 
   if (path.resolve(parentDir) === path.resolve(userOptions.rootPath!)) {
-    FileExplorer.set(filePath, newNode);
-    const sorted = sortFileTreeNodesMap(FileExplorer);
-    FileExplorer.clear();
+    FileTree.set(filePath, newNode);
+    const sorted = sortFileTreeNodesMap(FileTree);
+    FileTree.clear();
     for (const [key, value] of sorted) {
-      FileExplorer.set(key, value);
+      FileTree.set(key, value);
     }
     return;
   }

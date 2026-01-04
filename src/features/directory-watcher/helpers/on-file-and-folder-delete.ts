@@ -3,7 +3,7 @@ import path from "node:path";
 import type { VastFileExplorerOptions } from "../../../shared/types";
 
 import {
-  FileExplorer,
+  FileTree,
   SearchIndex,
 } from "../../file-explorer/variables";
 import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
@@ -22,7 +22,7 @@ export function onFileAndFolderDelete(filePath: string, userOptions: VastFileExp
   const parentDir = path.dirname(filePath);
 
   if (path.resolve(parentDir) === path.resolve(userOptions.rootPath!)) {
-    FileExplorer.delete(filePath);
+    FileTree.delete(filePath);
     return;
   }
 

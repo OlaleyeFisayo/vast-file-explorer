@@ -36,13 +36,13 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
 
       let node: FileTreeNode;
       if (isDirectory) {
-        const childrenMap = await getFileTree(fullPath, options);
         node = {
           name: entry.name,
           path: fullPath,
           type: "directory",
           expanded: false,
-          children: childrenMap,
+          childExpanded: false,
+          children: new Map(),
         };
       }
       else {
