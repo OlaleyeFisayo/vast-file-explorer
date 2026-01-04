@@ -1,12 +1,9 @@
 import express from "express";
 
+import { getFileTreeHandler } from "./handlers";
+
 const expressRouter = express.Router();
 
-expressRouter.get("/health", (req, res) => {
-  res.json({
-    status: "ok",
-    message: "Vast File Explorer server is running",
-  });
-});
+expressRouter.get("/", getFileTreeHandler);
 
 export { expressRouter };

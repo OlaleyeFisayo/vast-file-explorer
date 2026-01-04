@@ -1,11 +1,12 @@
 import express from "express";
 
+import { serverBaseURL } from "../../shared/variables";
 import { expressRouter } from "./routes";
 
 const expressServer = express();
 
 expressServer.use(express.json());
 
-expressServer.use("/_vast-file-explorer", expressRouter);
+expressServer.use(serverBaseURL, expressRouter);
 
 export { expressServer };
