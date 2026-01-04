@@ -6,8 +6,6 @@ import { getFileTree } from "./get-file-tree";
 export async function initializeFileTree(userOptions: VastFileExplorerOptions): Promise<void> {
   const tree = await getFileTree(userOptions.rootPath!, { hiddenFiles: userOptions.hiddenFiles });
 
-  FileTree.clear();
-  for (const [key, value] of tree) {
-    FileTree.set(key, value);
-  }
+  FileTree.length = 0;
+  FileTree.push(...tree);
 }

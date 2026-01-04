@@ -3,8 +3,7 @@ import type { Plugin } from "vite";
 import type { VastFileExplorerOptions } from "../shared/types";
 
 import { rootDirectoryWatcher } from "../features/directory-watcher";
-import { expandDirectory } from "../features/file-explorer/helpers/expand-directory";
-import { initializeFileTree } from "../features/file-explorer/helpers/initialize-file-tree";
+import { expressServer } from "../features/express-server";
 import { vastFileExplorerOptionsDefault } from "../shared/variables";
 
 export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin {
@@ -15,11 +14,8 @@ export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin 
 
   return {
     name: "vast-file-explorer",
-    async buildStart() {
-      await initializeFileTree(options);
-      await expandDirectory("src");
-    },
     configureServer(server) {
+      server.middlewares.use(expressServer);
       rootDirectoryWatcher(server, options);
     },
   };

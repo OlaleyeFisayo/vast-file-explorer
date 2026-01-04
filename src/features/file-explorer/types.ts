@@ -6,7 +6,7 @@ export type DirectoryType = {
   type: "directory";
   expanded: boolean;
   childExpanded: boolean;
-  children: Map<string, FileTreeNode>;
+  children: FileTreeNode[];
 };
 
 export type FileTreeNode = {

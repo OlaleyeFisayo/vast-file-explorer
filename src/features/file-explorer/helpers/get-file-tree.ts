@@ -10,9 +10,9 @@ type GetFileTreeOptions = {
   hiddenFiles: VastFileExplorerOptions["hiddenFiles"];
 };
 
-export async function getFileTree(dirPath: string, options?: GetFileTreeOptions): Promise<Map<string, FileTreeNode>> {
+export async function getFileTree(dirPath: string, options?: GetFileTreeOptions): Promise<FileTreeNode[]> {
   const absoluteDirPath = await fs.realpath(path.resolve(dirPath));
-  const currentLevel = new Map<string, FileTreeNode>();
+  const currentLevel: FileTreeNode[] = [];
 
   try {
     const entries = await fs.readdir(absoluteDirPath, { withFileTypes: true });
@@ -42,7 +42,7 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
           type: "directory",
           expanded: false,
           childExpanded: false,
-          children: new Map(),
+          children: [],
         };
       }
       else {
@@ -53,7 +53,7 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
         };
       }
 
-      currentLevel.set(node.path, node);
+      currentLevel.push(node);
       SearchIndex.set(node.path, node);
     }
   }

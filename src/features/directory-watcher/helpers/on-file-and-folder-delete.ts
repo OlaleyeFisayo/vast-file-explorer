@@ -27,13 +27,19 @@ export async function onFileAndFolderDelete(filePath: string, userOptions: VastF
   const resolvedRoot = await realpath(path.resolve(userOptions.rootPath || process.cwd()));
 
   if (path.dirname(targetPath) === resolvedRoot) {
-    FileTree.delete(targetPath);
+    const index = FileTree.findIndex(node => node.path === targetPath);
+    if (index !== -1) {
+      FileTree.splice(index, 1);
+    }
     return;
   }
 
   const resolvedParentDir = await realpath(parentDir);
   const parentNode = SearchIndex.get(resolvedParentDir);
   if (parentNode && parentNode.type === "directory") {
-    parentNode.children.delete(targetPath);
+    const index = parentNode.children.findIndex(node => node.path === targetPath);
+    if (index !== -1) {
+      parentNode.children.splice(index, 1);
+    }
   }
 }

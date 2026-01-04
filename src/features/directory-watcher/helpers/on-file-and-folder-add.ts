@@ -9,7 +9,7 @@ import type { FileTreeNode } from "../../file-explorer/types";
 
 import {
 } from "../../../shared/variables";
-import { sortFileTreeNodesMap } from "../../file-explorer/helpers/sort-file-tree-nodes";
+import { sortFileTreeNodes } from "../../file-explorer/helpers/sort-file-tree-nodes";
 import {
   FileTree,
   SearchIndex,
@@ -35,7 +35,7 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
       type: "directory",
       expanded: false,
       childExpanded: false,
-      children: new Map(),
+      children: [],
     };
   }
   else {
@@ -51,19 +51,31 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
   const resolvedRoot = await realpath(path.resolve(userOptions.rootPath || process.cwd()));
 
   if (path.resolve(parentDir) === resolvedRoot) {
-    FileTree.set(realFilePath, newNode);
-    const sorted = sortFileTreeNodesMap(FileTree);
-    FileTree.clear();
-    for (const [key, value] of sorted) {
-      FileTree.set(key, value);
+    const existingIndex = FileTree.findIndex(node => node.path === realFilePath);
+    if (existingIndex !== -1) {
+      FileTree[existingIndex] = newNode;
     }
+    else {
+      FileTree.push(newNode);
+    }
+
+    const sorted = sortFileTreeNodes(FileTree);
+    FileTree.length = 0;
+    FileTree.push(...sorted);
     return;
   }
 
   const resolvedParentDir = await realpath(parentDir);
   const parentNode = SearchIndex.get(resolvedParentDir);
   if (parentNode && parentNode.type === "directory" && parentNode.expanded) {
-    parentNode.children.set(realFilePath, newNode);
-    parentNode.children = sortFileTreeNodesMap(parentNode.children);
+    const existingIndex = parentNode.children.findIndex(node => node.path === realFilePath);
+    if (existingIndex !== -1) {
+      parentNode.children[existingIndex] = newNode;
+    }
+    else {
+      parentNode.children.push(newNode);
+    }
+
+    parentNode.children = sortFileTreeNodes(parentNode.children);
   }
 }

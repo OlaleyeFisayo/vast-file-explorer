@@ -1,7 +1,7 @@
 import type { FileTreeNode } from "../types";
 
-export function sortFileTreeNodesMap(map: Map<string, FileTreeNode>): Map<string, FileTreeNode> {
-  const sortedEntries = Array.from(map.entries()).sort(([, a], [, b]) => {
+export function sortFileTreeNodes(nodes: FileTreeNode[]): FileTreeNode[] {
+  return [...nodes].sort((a, b) => {
     const isADirectory = a.type === "directory";
     const isBDirectory = b.type === "directory";
 
@@ -12,6 +12,4 @@ export function sortFileTreeNodesMap(map: Map<string, FileTreeNode>): Map<string
 
     return a.name.localeCompare(b.name);
   });
-
-  return new Map(sortedEntries);
 }

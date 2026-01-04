@@ -23,9 +23,9 @@ export async function expandDirectory(dirPath: string, options?: ExpandDirectory
   }
 
   try {
-    const childrenMap = await getFileTree(absoluteDirPath, options);
+    const childrenList = await getFileTree(absoluteDirPath, options);
 
-    parentNode.children = childrenMap;
+    parentNode.children = childrenList;
     parentNode.expanded = true;
     parentNode.childExpanded = true;
   }
