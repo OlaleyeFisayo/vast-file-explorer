@@ -1,16 +1,10 @@
 import { realpath } from "node:fs/promises";
 import path from "node:path";
 
-import type { VastFileExplorerOptions } from "../../../shared/types";
-
 import { SearchIndex } from "../variables";
 import { getFileTree } from "./get-file-tree";
 
-type ExpandDirectoryOptions = {
-  hiddenFiles: VastFileExplorerOptions["hiddenFiles"];
-};
-
-export async function expandDirectory(dirPath: string, options?: ExpandDirectoryOptions): Promise<void> {
+export async function expandDirectory(dirPath: string): Promise<void> {
   const absoluteDirPath = await realpath(path.resolve(dirPath));
   const parentNode = SearchIndex.get(absoluteDirPath);
 
@@ -23,7 +17,7 @@ export async function expandDirectory(dirPath: string, options?: ExpandDirectory
   }
 
   try {
-    const childrenList = await getFileTree(absoluteDirPath, options);
+    const childrenList = await getFileTree(absoluteDirPath);
 
     parentNode.children = childrenList;
     parentNode.expanded = true;

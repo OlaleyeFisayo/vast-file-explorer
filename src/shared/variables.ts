@@ -13,3 +13,13 @@ export const clientInstance = axios.create({
   baseURL: serverBaseURL,
   headers: { "Content-Type": "application/json" },
 });
+
+// eslint-disable-next-line import/no-mutable-exports
+export let globalOptions: VastFileExplorerOptions = {};
+
+export function setGlobalOptions(options: VastFileExplorerOptions): void {
+  globalOptions = {
+    ...vastFileExplorerOptionsDefault,
+    ...options,
+  };
+}

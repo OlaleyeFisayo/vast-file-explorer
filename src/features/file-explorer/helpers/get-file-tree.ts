@@ -1,16 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import type { VastFileExplorerOptions } from "../../../shared/types";
 import type { FileTreeNode } from "../types";
 
+import { globalOptions } from "../../../shared/variables";
 import { SearchIndex } from "../variables";
 
-type GetFileTreeOptions = {
-  hiddenFiles: VastFileExplorerOptions["hiddenFiles"];
-};
-
-export async function getFileTree(dirPath: string, options?: GetFileTreeOptions): Promise<FileTreeNode[]> {
+export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
   const absoluteDirPath = await fs.realpath(path.resolve(dirPath));
   const currentLevel: FileTreeNode[] = [];
 
@@ -28,7 +24,7 @@ export async function getFileTree(dirPath: string, options?: GetFileTreeOptions)
     });
 
     for (const entry of entries) {
-      if (options?.hiddenFiles?.includes(entry.name))
+      if (globalOptions?.hiddenFiles?.includes(entry.name))
         continue;
 
       const fullPath = path.join(absoluteDirPath, entry.name);

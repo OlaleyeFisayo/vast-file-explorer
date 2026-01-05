@@ -1,15 +1,14 @@
 import { realpath } from "node:fs/promises";
 import path from "node:path";
 
-import type { VastFileExplorerOptions } from "../../../shared/types";
-
+import { globalOptions } from "../../../shared/variables";
 import {
   FileTree,
   SearchIndex,
 } from "../../file-explorer/variables";
 import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
 
-export async function onFileAndFolderDelete(filePath: string, userOptions: VastFileExplorerOptions): Promise<void> {
+export async function onFileAndFolderDelete(filePath: string): Promise<void> {
   const parentDir = path.dirname(filePath);
   const resolvedParent = await realpath(parentDir);
   const targetPath = path.join(resolvedParent, path.basename(filePath));
@@ -24,7 +23,7 @@ export async function onFileAndFolderDelete(filePath: string, userOptions: VastF
   }
   SearchIndex.delete(targetPath);
 
-  const resolvedRoot = await realpath(path.resolve(userOptions.rootPath || process.cwd()));
+  const resolvedRoot = await realpath(path.resolve(globalOptions.rootPath!));
 
   if (path.dirname(targetPath) === resolvedRoot) {
     const index = FileTree.findIndex(node => node.path === targetPath);

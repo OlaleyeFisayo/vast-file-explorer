@@ -4,22 +4,20 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 
-import type { VastFileExplorerOptions } from "../../../shared/types";
 import type { FileTreeNode } from "../../file-explorer/types";
 
-import {
-} from "../../../shared/variables";
+import { globalOptions } from "../../../shared/variables";
 import { sortFileTreeNodes } from "../../file-explorer/helpers/sort-file-tree-nodes";
 import {
   FileTree,
   SearchIndex,
 } from "../../file-explorer/variables";
 
-export async function onFileAndFolderAdd(filePath: string, userOptions: VastFileExplorerOptions): Promise<void> {
+export async function onFileAndFolderAdd(filePath: string): Promise<void> {
   const realFilePath = await realpath(filePath);
   const fileName = path.basename(realFilePath);
 
-  if (userOptions?.hiddenFiles?.includes(fileName))
+  if (globalOptions?.hiddenFiles?.includes(fileName))
     return;
 
   const parentDir = path.dirname(realFilePath);
@@ -48,7 +46,7 @@ export async function onFileAndFolderAdd(filePath: string, userOptions: VastFile
 
   SearchIndex.set(realFilePath, newNode);
 
-  const resolvedRoot = await realpath(path.resolve(userOptions.rootPath || process.cwd()));
+  const resolvedRoot = await realpath(path.resolve(globalOptions.rootPath!));
 
   if (path.resolve(parentDir) === resolvedRoot) {
     const existingIndex = FileTree.findIndex(node => node.path === realFilePath);

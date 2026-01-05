@@ -2,3 +2,4 @@ node_modules/
 dist/
 test/
 vite.config.ts
+GEMINI.md

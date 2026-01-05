@@ -5,20 +5,17 @@ import type { VastFileExplorerOptions } from "../shared/types";
 import { rootDirectoryWatcher } from "../features/directory-watcher";
 import { expressServer } from "../features/express-server";
 import { initializeFileTree } from "../features/file-explorer/helpers/initialize-file-tree";
-import { vastFileExplorerOptionsDefault } from "../shared/variables";
+import { setGlobalOptions } from "../shared/variables";
 
-export function vastFileExplorer(userOptions?: VastFileExplorerOptions): Plugin {
-  const options = {
-    ...vastFileExplorerOptionsDefault,
-    ...userOptions,
-  };
+export function vastFileExplorer(userOptions: VastFileExplorerOptions = {}): Plugin {
+  setGlobalOptions(userOptions);
 
   return {
     name: "vast-file-explorer",
     async configureServer(server) {
-      await initializeFileTree(options);
+      await initializeFileTree();
       server.middlewares.use(expressServer);
-      rootDirectoryWatcher(server, options);
+      rootDirectoryWatcher(server);
     },
   };
 };
