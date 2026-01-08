@@ -9,4 +9,4 @@ expressServer.use(express.json());
 
 expressServer.use(serverBaseURL, expressRouter);
 
-export { expressServer };
+export default expressServer;
