@@ -20,6 +20,6 @@ export const deleteFolderHandler: RequestHandler = async (req, res) => {
     res.json({ message: "Folder Deleted Successfully" });
   }
   catch (error: any) {
-    throw new Error(error);
+    res.status(400).json({ message: error.message });
   }
 };

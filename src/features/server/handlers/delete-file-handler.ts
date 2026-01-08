@@ -20,6 +20,6 @@ export const deleteFileHandler: RequestHandler = async (req, res) => {
     res.json({ message: "File Deleted Successfully" });
   }
   catch (error: any) {
-    throw new Error(error);
+    res.status(400).json({ message: error.message });
   }
 };

@@ -1,4 +1,6 @@
 export * from "./collapse-directory-handler";
+export * from "./copy-file-handler";
+export * from "./copy-folder-handler";
 export * from "./create-file-handler";
 export * from "./create-folder-handler";
 export * from "./delete-file-handler";

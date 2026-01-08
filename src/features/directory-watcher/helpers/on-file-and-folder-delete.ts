@@ -10,7 +10,16 @@ import { removeDescendantsFromIndex } from "./remove-descendants-from-index";
 
 export async function onFileAndFolderDelete(filePath: string): Promise<void> {
   const parentDir = path.dirname(filePath);
-  const resolvedParent = await realpath(parentDir);
+  let resolvedParent: string;
+  try {
+    resolvedParent = await realpath(parentDir);
+  }
+  catch (error: any) {
+    if (error.code === "ENOENT") {
+      return;
+    }
+    throw error;
+  }
   const targetPath = path.join(resolvedParent, path.basename(filePath));
 
   const nodeToDelete = SearchIndex.get(targetPath);
@@ -33,8 +42,7 @@ export async function onFileAndFolderDelete(filePath: string): Promise<void> {
     return;
   }
 
-  const resolvedParentDir = await realpath(parentDir);
-  const parentNode = SearchIndex.get(resolvedParentDir);
+  const parentNode = SearchIndex.get(resolvedParent);
   if (parentNode && parentNode.type === "directory") {
     const index = parentNode.children.findIndex(node => node.path === targetPath);
     if (index !== -1) {

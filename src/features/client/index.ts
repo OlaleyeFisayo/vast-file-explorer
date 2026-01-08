@@ -1,4 +1,6 @@
 export * from "./helpers/collapse-directory";
+export * from "./helpers/copy-file";
+export * from "./helpers/copy-folder";
 export * from "./helpers/create-file";
 export * from "./helpers/create-folder";
 export * from "./helpers/delete-file";
