@@ -7,6 +7,7 @@ import path from "node:path";
 import type { FileTreeNode } from "../../file-explorer/types";
 
 import { globalOptions } from "../../../shared/variables";
+import { expandDirectory } from "../../file-explorer/helpers/expand-directory";
 import { sortFileTreeNodes } from "../../file-explorer/helpers/sort-file-tree-nodes";
 import {
   FileTree,
@@ -65,15 +66,20 @@ export async function onFileAndFolderAdd(filePath: string): Promise<void> {
 
   const resolvedParentDir = await realpath(parentDir);
   const parentNode = SearchIndex.get(resolvedParentDir);
-  if (parentNode && parentNode.type === "directory" && parentNode.expanded) {
-    const existingIndex = parentNode.children.findIndex(node => node.path === realFilePath);
-    if (existingIndex !== -1) {
-      parentNode.children[existingIndex] = newNode;
+  if (parentNode && parentNode.type === "directory") {
+    if (!parentNode.expanded) {
+      await expandDirectory(resolvedParentDir);
     }
     else {
-      parentNode.children.push(newNode);
-    }
+      const existingIndex = parentNode.children.findIndex(node => node.path === realFilePath);
+      if (existingIndex !== -1) {
+        parentNode.children[existingIndex] = newNode;
+      }
+      else {
+        parentNode.children.push(newNode);
+      }
 
-    parentNode.children = sortFileTreeNodes(parentNode.children);
+      parentNode.children = sortFileTreeNodes(parentNode.children);
+    }
   }
 }
