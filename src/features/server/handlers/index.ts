@@ -5,3 +5,4 @@ export * from "./delete-file-handler";
 export * from "./delete-folder-handler";
 export * from "./expand-directory-handler";
 export * from "./get-file-tree-handler";
+export * from "./rename-item-handler";
