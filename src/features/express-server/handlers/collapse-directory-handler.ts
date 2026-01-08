@@ -1,17 +1,17 @@
 import type { RequestHandler } from "express";
 
-import { z } from "zod";
+import z4 from "zod/v4";
 
 import { collapseDirectory } from "../../file-explorer/helpers/collapse-directory";
 import { FileTree } from "../../file-explorer/variables";
 
-const collapseDirectorySchema = z.object({ path: z.string() });
+const collapseDirectorySchema = z4.object({ path: z4.string() });
 
 export const collapseDirectoryHandler: RequestHandler = async (req, res) => {
   const result = collapseDirectorySchema.safeParse(req.body);
 
   if (!result.success) {
-    res.status(400).json(z.prettifyError(result.error));
+    res.status(400).json(z4.flattenError(result.error));
     return;
   }
 

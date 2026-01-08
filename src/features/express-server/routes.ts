@@ -2,14 +2,17 @@ import express from "express";
 
 import {
   collapseDirectoryHandler,
+  createFileHandler,
   expandDirectoryHandler,
   getFileTreeHandler,
 } from "./handlers";
 
 const expressRouter = express.Router();
 
-expressRouter.get("/", getFileTreeHandler);
-expressRouter.post("/expand", expandDirectoryHandler);
-expressRouter.post("/collapse", collapseDirectoryHandler);
+expressRouter
+  .get("/", getFileTreeHandler)
+  .post("/", createFileHandler)
+  .post("/expand", expandDirectoryHandler)
+  .post("/collapse", collapseDirectoryHandler);
 
 export { expressRouter };
