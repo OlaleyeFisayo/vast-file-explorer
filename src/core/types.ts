@@ -12,4 +12,6 @@ export type DirectoryType = {
 export type FileTreeNode = {
   name: string;
   path: string;
+  absolutePath: string;
+  relativePath: string;
 } & (FileType | DirectoryType);

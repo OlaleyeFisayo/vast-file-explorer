@@ -24,12 +24,18 @@ export async function onFileAndFolderAdd(filePath: string): Promise<void> {
   const fileStat = await stat(realFilePath);
   const isDirectory = fileStat.isDirectory();
 
+  const resolvedRoot = await realpath(path.resolve(globalOptions.rootPath!));
+  const absolutePathNode = realFilePath;
+  const relativePathNode = path.relative(resolvedRoot, realFilePath);
+
   let newNode: FileTreeNode;
 
   if (isDirectory) {
     newNode = {
       name: fileName,
       path: realFilePath,
+      absolutePath: absolutePathNode,
+      relativePath: relativePathNode,
       type: "directory",
       expanded: false,
       childExpanded: false,
@@ -40,13 +46,13 @@ export async function onFileAndFolderAdd(filePath: string): Promise<void> {
     newNode = {
       name: fileName,
       path: realFilePath,
+      absolutePath: absolutePathNode,
+      relativePath: relativePathNode,
       type: "file",
     };
   }
 
   SearchIndex.set(realFilePath, newNode);
-
-  const resolvedRoot = await realpath(path.resolve(globalOptions.rootPath!));
 
   if (path.resolve(parentDir) === resolvedRoot) {
     const existingIndex = FileTree.findIndex(node => node.path === realFilePath);

@@ -23,6 +23,8 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
       return a.name.localeCompare(b.name);
     });
 
+    const resolvedRoot = await fs.realpath(path.resolve(globalOptions.rootPath!));
+
     for (const entry of entries) {
       if (globalOptions?.hiddenFiles?.includes(entry.name))
         continue;
@@ -34,10 +36,15 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
       const existingType = node?.type;
 
       if (!node || (isDirectory && existingType !== "directory") || (!isDirectory && existingType !== "file")) {
+        const absolutePathNode = fullPath;
+        const relativePathNode = path.relative(resolvedRoot, fullPath);
+
         if (isDirectory) {
           node = {
             name: entry.name,
             path: fullPath,
+            absolutePath: absolutePathNode,
+            relativePath: relativePathNode,
             type: "directory",
             expanded: false,
             childExpanded: false,
@@ -48,6 +55,8 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
           node = {
             name: entry.name,
             path: fullPath,
+            absolutePath: absolutePathNode,
+            relativePath: relativePathNode,
             type: "file",
           };
         }

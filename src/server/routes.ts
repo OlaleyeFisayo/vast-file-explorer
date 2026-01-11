@@ -9,16 +9,22 @@ import { deleteFileHandler } from "../features/delete-file/handler";
 import { deleteFolderHandler } from "../features/delete-folder/handler";
 import { expandDirectoryHandler } from "../features/expand-directory/handler";
 import { getFileTreeHandler } from "../features/get-file-tree/handler";
+import { moveFileHandler } from "../features/move-file/handler";
+import { moveFolderHandler } from "../features/move-folder/handler";
 import { renameItemHandler } from "../features/rename/handler";
+import { searchHandler } from "../features/search/handler";
 
 const expressRouter = express.Router();
 
 expressRouter
   .get("/", getFileTreeHandler)
+  .get("/search", searchHandler)
   .post("/", createFileHandler)
   .post("/folder", createFolderHandler)
   .post("/copy-file", copyFileHandler)
   .post("/copy-folder", copyFolderHandler)
+  .post("/move-file", moveFileHandler)
+  .post("/move-folder", moveFolderHandler)
   .post("/rename", renameItemHandler)
   .post("/delete-file", deleteFileHandler)
   .post("/delete-folder", deleteFolderHandler)
