@@ -23,15 +23,15 @@ npm install @vast/file-explorer
 To use VAST File Explorer in your Vite project, add the `vastFileExplorer` plugin to your `vite.config.ts`:
 
 ```typescript
-import { defineConfig } from 'vite';
-import { vastFileExplorer } from '@vast/file-explorer';
+import { vastFileExplorer } from "@vast/file-explorer";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
     vastFileExplorer({
       // Optional configurations
-      rootPath: './',
-      hiddenFiles: ['node_modules', '.git', 'dist']
+      rootPath: "./",
+      hiddenFiles: ["node_modules", ".git", "dist"]
     })
   ]
 });
@@ -39,7 +39,7 @@ export default defineConfig({
 
 ### Options
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `rootPath` | `string` | `'./'` | The root directory the plugin will watch and manage. |
+| Option        | Type       | Default                            | Description                                                   |
+| ------------- | ---------- | ---------------------------------- | ------------------------------------------------------------- |
+| `rootPath`    | `string`   | `'./'`                             | The root directory the plugin will watch and manage.          |
 | `hiddenFiles` | `string[]` | `['node_modules', '.git', 'dist']` | A list of files or directories to exclude from the file tree. |
