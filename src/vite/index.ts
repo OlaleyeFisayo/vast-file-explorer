@@ -2,9 +2,9 @@ import type { Plugin } from "vite";
 
 import type { VastFileExplorerOptions } from "../shared/types";
 
-import { rootDirectoryWatcher } from "../features/directory-watcher";
-import { initializeFileTree } from "../features/file-explorer/helpers/initialize-file-tree";
-import expressServer from "../features/server";
+import { initializeFileTree } from "../core/initialize";
+import { rootDirectoryWatcher } from "../core/watcher";
+import expressServer from "../server";
 import { setGlobalOptions } from "../shared/variables";
 
 export function vastFileExplorer(userOptions: VastFileExplorerOptions = {}): Plugin {
