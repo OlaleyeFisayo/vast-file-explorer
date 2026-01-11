@@ -30,27 +30,31 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
       const fullPath = path.join(absoluteDirPath, entry.name);
       const isDirectory = entry.isDirectory();
 
-      let node: FileTreeNode;
-      if (isDirectory) {
-        node = {
-          name: entry.name,
-          path: fullPath,
-          type: "directory",
-          expanded: false,
-          childExpanded: false,
-          children: [],
-        };
-      }
-      else {
-        node = {
-          name: entry.name,
-          path: fullPath,
-          type: "file",
-        };
+      let node = SearchIndex.get(fullPath);
+      const existingType = node?.type;
+
+      if (!node || (isDirectory && existingType !== "directory") || (!isDirectory && existingType !== "file")) {
+        if (isDirectory) {
+          node = {
+            name: entry.name,
+            path: fullPath,
+            type: "directory",
+            expanded: false,
+            childExpanded: false,
+            children: [],
+          };
+        }
+        else {
+          node = {
+            name: entry.name,
+            path: fullPath,
+            type: "file",
+          };
+        }
+        SearchIndex.set(node.path, node);
       }
 
       currentLevel.push(node);
-      SearchIndex.set(node.path, node);
     }
   }
   catch (error) {
