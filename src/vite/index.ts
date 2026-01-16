@@ -11,7 +11,7 @@ export function vastFileExplorer(userOptions: VastFileExplorerOptions = {}): Plu
   setGlobalOptions(userOptions);
 
   return {
-    name: "vast-file-explorer",
+    name: "@vast/file-explorer",
     async configureServer(server) {
       await initializeFileTree();
       server.middlewares.use(expressServer);
