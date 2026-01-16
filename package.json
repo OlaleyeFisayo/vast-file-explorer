@@ -22,7 +22,6 @@
     "file-system"
   ],
   "scripts": {
-    "test": "",
     "prebuild": "rimraf dist",
     "build": "npm run prebuild && tsc",
     "lint": "eslint",
