@@ -3,3 +3,4 @@ dist/
 test/
 vite.config.ts
 GEMINI.md
+*.tgz

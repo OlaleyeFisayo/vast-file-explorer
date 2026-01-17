@@ -21,9 +21,12 @@
     "vite",
     "file-system"
   ],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run prebuild && tsc",
+    "build": "npm run prebuild && tsc && npm pack",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"
