@@ -23,8 +23,9 @@ npm install @vast/file-explorer
 To use VAST File Explorer in your Vite project, add the `vastFileExplorer` plugin to your `vite.config.ts`:
 
 ```typescript
-import { vastFileExplorer } from "@vast/file-explorer";
 import { defineConfig } from "vite";
+
+import { vastFileExplorer } from "@vast/file-explorer/vite";
 
 export default defineConfig({
   plugins: [

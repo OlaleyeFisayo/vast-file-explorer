@@ -1,10 +1,10 @@
 {
   "name": "@vast/file-explorer",
-  "type": "commonjs",
+  "type": "module",
   "version": "0.0.0",
   "description": "Core file system bridge for VAST. Provides secure, development-time access to project files and directories, enabling VAST's visual builder to read and write components directly to your local Vue project.",
   "author": "Festus-Olaleye Oluwafisayomi Oluwaseunfunmi",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://github.com/OlaleyeFisayo/vast-file-explorer#readme",
   "repository": {
     "type": "git",
@@ -21,12 +21,24 @@
     "vite",
     "file-system"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/vite/index.d.ts",
+      "import": "./dist/vite/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "/dist/index.d.ts",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "npm run prebuild && tsc && npm pack",
+    "build": "tsup",
+    "postbuild": "npm pack",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"
@@ -47,7 +59,7 @@
     "eslint-plugin-format": "^1.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vite": "*"
   },
