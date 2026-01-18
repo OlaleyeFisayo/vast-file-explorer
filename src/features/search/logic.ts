@@ -61,7 +61,7 @@ export async function searchFiles(query: string): Promise<FileTreeNode[]> {
             name: entry.name,
             path: fullPath,
             absolutePath,
-            relativePath,
+            key: relativePath,
             type: entry.isDirectory() ? "directory" : "file",
             ...(entry.isDirectory()
               ? {
