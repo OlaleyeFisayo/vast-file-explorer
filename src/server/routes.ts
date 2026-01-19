@@ -9,6 +9,7 @@ import { deleteFileHandler } from "../features/delete-file/handler";
 import { deleteFolderHandler } from "../features/delete-folder/handler";
 import { expandDirectoryHandler } from "../features/expand-directory/handler";
 import { getFileTreeHandler } from "../features/get-file-tree/handler";
+import { getRootPathBasenameHandler } from "../features/get-root-path-basename/handler";
 import { moveFileHandler } from "../features/move-file/handler";
 import { moveFolderHandler } from "../features/move-folder/handler";
 import { renameItemHandler } from "../features/rename/handler";
@@ -19,6 +20,7 @@ const expressRouter = express.Router();
 expressRouter
   .get("/", getFileTreeHandler)
   .get("/search", searchHandler)
+  .get("/root-path-basename", getRootPathBasenameHandler)
   .post("/", createFileHandler)
   .post("/folder", createFolderHandler)
   .post("/copy-file", copyFileHandler)

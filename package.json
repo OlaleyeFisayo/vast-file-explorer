@@ -26,10 +26,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/types.js"
-    },
     "./vite": {
       "types": "./dist/vite/index.d.ts",
       "import": "./dist/vite/index.js"
