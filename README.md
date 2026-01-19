@@ -80,7 +80,7 @@ Other functions such as `createFile`, `deleteFile`, `copyFile`, etc., trigger a 
 Here's an example of how you might manage the file tree state in a Vue composable:
 
 ```typescript
-import type { FileTreeNode, } from " @vast/file-explorer";
+import type { FileTreeNode } from " @vast/file-explorer";
 
 import {
   collapseDirectory,
