@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "postbuild": "npm pack",
+    "postbuild": "npm pack && del ..\\\\vast-vue\\\\vast-file-explorer-*.tgz && move vast-file-explorer-*.tgz ../vast-vue",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"
