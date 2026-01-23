@@ -12,5 +12,7 @@ export * from "./features/get-file-tree/client";
 export * from "./features/get-root-path-basename/client";
 export * from "./features/move-file/client";
 export * from "./features/move-folder/client";
+export * from "./features/open-in-editor/client";
+export * from "./features/open-in-file-manager/client";
 export * from "./features/rename/client";
 export * from "./features/search/client";
