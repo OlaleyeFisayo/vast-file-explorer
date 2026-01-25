@@ -41,7 +41,8 @@
     "postbuild": "npm pack && del ..\\\\vast-vue\\\\vast-file-explorer-*.tgz && move vast-file-explorer-*.tgz ../vast-vue",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest"
   },
   "peerDependencies": {
     "vite": "^7.3.1"
@@ -62,7 +63,8 @@
     "lint-staged": "^16.2.7",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vite": "*"
+    "vite": "*",
+    "vitest": "^4.0.18"
   },
   "lint-staged": {
     "*": "npm run lint"
