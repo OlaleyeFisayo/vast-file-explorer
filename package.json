@@ -67,6 +67,6 @@
     "vitest": "^4.0.18"
   },
   "lint-staged": {
-    "*": "npm run lint"
+    "*": "npm run lint:fix"
   }
 }
