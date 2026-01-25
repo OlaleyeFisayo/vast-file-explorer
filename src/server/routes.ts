@@ -12,7 +12,6 @@ import { getFileTreeHandler } from "../features/get-file-tree/handler";
 import { getRootPathBasenameHandler } from "../features/get-root-path-basename/handler";
 import { moveFileHandler } from "../features/move-file/handler";
 import { moveFolderHandler } from "../features/move-folder/handler";
-import { openInEditorHandler } from "../features/open-in-editor/handler";
 import { openInFileManagerHandler } from "../features/open-in-file-manager/handler";
 import { renameItemHandler } from "../features/rename/handler";
 import { searchHandler } from "../features/search/handler";
@@ -34,7 +33,6 @@ expressRouter
   .post("/delete-folder", deleteFolderHandler)
   .post("/expand", expandDirectoryHandler)
   .post("/collapse", collapseDirectoryHandler)
-  .post("/open-in-file-manager", openInFileManagerHandler)
-  .post("/open-in-editor", openInEditorHandler);
+  .post("/open-in-file-manager", openInFileManagerHandler);
 
 export { expressRouter };
