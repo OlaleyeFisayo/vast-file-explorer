@@ -1,16 +1,16 @@
 import type { RequestHandler } from "express";
 
-import z4 from "zod/v4";
+import z from "zod/v4";
 
 import { searchFiles } from "./logic";
 
-const searchSchema = z4.object({ query: z4.string().min(1) });
+const searchSchema = z.object({ query: z.string().min(1) });
 
 export const searchHandler: RequestHandler = async (req, res) => {
   const result = searchSchema.safeParse(req.query);
 
   if (!result.success) {
-    res.status(400).json(z4.flattenError(result.error));
+    res.status(400).json(z.flattenError(result.error));
     return;
   }
 
@@ -21,6 +21,6 @@ export const searchHandler: RequestHandler = async (req, res) => {
     res.json(matches);
   }
   catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };

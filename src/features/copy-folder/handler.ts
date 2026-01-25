@@ -1,19 +1,19 @@
 import type { RequestHandler } from "express";
 
-import z4 from "zod/v4";
+import z from "zod/v4";
 
 import { copyFolderItem } from "./logic";
 
-const copyFolderSchema = z4.object({
-  sourcePath: z4.string(),
-  destinationDir: z4.string().optional(),
+const copyFolderSchema = z.object({
+  sourcePath: z.string(),
+  destinationDir: z.string().optional(),
 });
 
 export const copyFolderHandler: RequestHandler = async (req, res) => {
   const result = copyFolderSchema.safeParse(req.body);
 
   if (!result.success) {
-    res.status(400).json(z4.flattenError(result.error));
+    res.status(400).json(z.flattenError(result.error));
     return;
   }
 

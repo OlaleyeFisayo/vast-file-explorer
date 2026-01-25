@@ -1,19 +1,19 @@
 import type { RequestHandler } from "express";
 
-import z4 from "zod/v4";
+import z from "zod/v4";
 
 import { renameItem } from "./logic";
 
-const renameItemSchema = z4.object({
-  path: z4.string(),
-  newName: z4.string(),
+const renameItemSchema = z.object({
+  path: z.string(),
+  newName: z.string(),
 });
 
 export const renameItemHandler: RequestHandler = async (req, res) => {
   const result = renameItemSchema.safeParse(req.body);
 
   if (!result.success) {
-    res.status(400).json(z4.flattenError(result.error));
+    res.status(400).json(z.flattenError(result.error));
     return;
   }
 

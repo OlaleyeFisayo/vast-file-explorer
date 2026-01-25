@@ -1,12 +1,12 @@
 import type { RequestHandler } from "express";
 
-import z4 from "zod/v4";
+import z from "zod/v4";
 
 import { createFile } from "./logic";
 
-const createFileSchema = z4.object({
-  name: z4.string(),
-  dirPath: z4.string().optional(),
+const createFileSchema = z.object({
+  name: z.string(),
+  dirPath: z.string().optional(),
 
 });
 
@@ -14,7 +14,7 @@ export const createFileHandler: RequestHandler = async (req, res) => {
   const result = createFileSchema.safeParse(req.body);
 
   if (!result.success) {
-    res.status(400).json(z4.flattenError(result.error));
+    res.status(400).json(z.flattenError(result.error));
     return;
   }
 
@@ -27,6 +27,6 @@ export const createFileHandler: RequestHandler = async (req, res) => {
     res.json({ message: "File Created Successfully" });
   }
   catch (error: any) {
-    throw new Error(error);
+    res.status(400).json({ message: error.message });
   }
 };
