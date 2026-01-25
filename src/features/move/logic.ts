@@ -1,47 +1,18 @@
-import {
-  cp,
-  lstat,
-  rm,
-} from "node:fs/promises";
-import path from "node:path";
-
-import { globalOptions } from "../../shared/variables";
+import { copyItem } from "../copy/logic";
+import { deleteItem } from "../delete/logic";
 
 export async function moveItem(sourcePath: string, destinationDir?: string): Promise<void> {
-  const targetDir = destinationDir ?? globalOptions.rootPath;
-
   try {
-    await lstat(sourcePath);
+    await copyItem(sourcePath, destinationDir);
   }
   catch (error: any) {
-    if (error.code === "ENOENT") {
-      throw new Error(`Source item does not exist: ${sourcePath}`);
-    }
-    throw error;
-  }
-
-  const itemName = path.basename(sourcePath);
-  const destinationPath = path.join(targetDir!, itemName);
-
-  try {
-    const destStats = await lstat(destinationPath);
-    const type = destStats.isDirectory() ? "folder" : "file";
-    throw new Error(`A ${type} with the name "${itemName}" already exists at the destination.`);
-  }
-  catch (error: any) {
-    if (error.code !== "ENOENT") {
-      throw error;
-    }
+    throw new Error(`Failed to move item: ${error.message}`, { cause: error });
   }
 
   try {
-    await cp(sourcePath, destinationPath, { recursive: true });
-    await rm(sourcePath, {
-      recursive: true,
-      force: true,
-    });
+    await deleteItem(sourcePath);
   }
   catch (error: any) {
-    throw new Error(`Failed to move item from ${sourcePath} to ${destinationPath}: ${error.message}`, { cause: error });
+    throw new Error(`Failed to complete move. The item was copied, but the original could not be deleted: ${error.message}`, { cause: error });
   }
 }
