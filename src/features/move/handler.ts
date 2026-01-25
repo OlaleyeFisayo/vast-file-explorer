@@ -2,15 +2,15 @@ import type { RequestHandler } from "express";
 
 import z from "zod/v4";
 
-import { copyFolderItem } from "./logic";
+import { moveItem } from "./logic";
 
-const copyFolderSchema = z.object({
+const moveSchema = z.object({
   sourcePath: z.string(),
   destinationDir: z.string().optional(),
 });
 
-export const copyFolderHandler: RequestHandler = async (req, res) => {
-  const result = copyFolderSchema.safeParse(req.body);
+export const moveHandler: RequestHandler = async (req, res) => {
+  const result = moveSchema.safeParse(req.body);
 
   if (!result.success) {
     res.status(400).json(z.flattenError(result.error));
@@ -22,8 +22,8 @@ export const copyFolderHandler: RequestHandler = async (req, res) => {
     destinationDir,
   } = result.data;
   try {
-    await copyFolderItem(sourcePath, destinationDir);
-    res.json({ message: "Folder Copied Successfully" });
+    await moveItem(sourcePath, destinationDir);
+    res.json({ message: "Item moved successfully" });
   }
   catch (error: any) {
     res.status(400).json({ message: error.message });
