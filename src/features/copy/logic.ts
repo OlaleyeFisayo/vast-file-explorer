@@ -7,10 +7,11 @@ import path from "node:path";
 import { globalOptions } from "../../shared/variables";
 
 export async function copyItem(sourcePath: string, destinationDir?: string): Promise<void> {
-  const targetDir = destinationDir ?? globalOptions.rootPath;
+  const targetDir: string = destinationDir ?? globalOptions.rootPath!;
 
+  let sourceStats;
   try {
-    await lstat(sourcePath);
+    sourceStats = await lstat(sourcePath);
   }
   catch (error: any) {
     if (error.code === "ENOENT") {
@@ -21,6 +22,17 @@ export async function copyItem(sourcePath: string, destinationDir?: string): Pro
 
   const itemName = path.basename(sourcePath);
   const destinationPath = path.join(targetDir!, itemName);
+
+  if (path.resolve(sourcePath) === path.resolve(destinationPath)) {
+    throw new Error("Source and destination are the same.");
+  }
+
+  if (sourceStats.isDirectory()) {
+    const relativePath = path.relative(sourcePath, targetDir);
+    if (!relativePath.startsWith("..") && !path.isAbsolute(relativePath)) {
+      throw new Error("Cannot copy a directory into itself or one of its subdirectories.");
+    }
+  }
 
   try {
     const destStats = await lstat(destinationPath);

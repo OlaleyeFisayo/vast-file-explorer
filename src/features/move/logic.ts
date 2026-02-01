@@ -6,7 +6,7 @@ export async function moveItem(sourcePath: string, destinationDir?: string): Pro
     await copyItem(sourcePath, destinationDir);
   }
   catch (error: any) {
-    throw new Error(`Failed to move item: ${error.message}`, { cause: error });
+    throw new Error(error.message, { cause: error });
   }
 
   try {
