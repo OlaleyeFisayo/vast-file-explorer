@@ -43,6 +43,7 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
           node = {
             name: entry.name,
             path: fullPath,
+            parentPath: absoluteDirPath,
             absolutePath: absolutePathNode,
             key: relativePathNode,
             type: "directory",
@@ -55,6 +56,7 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
           node = {
             name: entry.name,
             path: fullPath,
+            parentPath: absoluteDirPath,
             absolutePath: absolutePathNode,
             key: relativePathNode,
             type: "file",

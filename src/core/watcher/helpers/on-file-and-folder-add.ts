@@ -34,6 +34,7 @@ export async function onFileAndFolderAdd(filePath: string): Promise<void> {
     newNode = {
       name: fileName,
       path: realFilePath,
+      parentPath: parentDir,
       absolutePath: absolutePathNode,
       key: relativePathNode,
       type: "directory",
@@ -46,6 +47,7 @@ export async function onFileAndFolderAdd(filePath: string): Promise<void> {
     newNode = {
       name: fileName,
       path: realFilePath,
+      parentPath: parentDir,
       absolutePath: absolutePathNode,
       key: relativePathNode,
       type: "file",
