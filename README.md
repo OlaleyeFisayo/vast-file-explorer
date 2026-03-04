@@ -1,6 +1,6 @@
-# VAST File Explorer
+# Brickly File Explorer
 
-Core file system bridge for VAST. This tool provides secure, development-time access to project files and directories, enabling VAST's visual builder to read and write components directly to your local Vue project.
+Core file system bridge for Brickly. This tool provides secure, development-time access to project files and directories, enabling Brickly's visual builder to read and write components directly to your local Vue project.
 
 ## Features
 
@@ -14,23 +14,23 @@ Core file system bridge for VAST. This tool provides secure, development-time ac
 ## Installation
 
 ```bash
-npm install @vast/file-explorer
+npm install @brickly/file-explorer
 ```
 
 ## Usage
 
 ### Vite Plugin
 
-To use VAST File Explorer in your Vite project, add the `vastFileExplorer` plugin to your `vite.config.ts`:
+To use Brickly File Explorer in your Vite project, add the `fileExplorer` plugin to your `vite.config.ts`:
 
 ```typescript
 import { defineConfig } from "vite";
 
-import { vastFileExplorer } from "@vast/file-explorer/vite";
+import { fileExplorer } from "@brickly/file-explorer/vite";
 
 export default defineConfig({
   plugins: [
-    vastFileExplorer({
+    fileExplorer({
       // Optional configurations
       rootPath: "./",
       hiddenFiles: ["node_modules", ".git", "dist", ".husky", ".vscode"],
@@ -48,7 +48,7 @@ export default defineConfig({
 
 ## API
 
-The following functions are exported from `@vast/file-explorer` and can be used to interact with the file system.
+The following functions are exported from `@brickly/file-explorer` and can be used to interact with the file system.
 
 | Function            | Signature                                                      | Description                                                                |
 | ------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -84,14 +84,14 @@ import {
   ref,
 } from "vue";
 
-import type { FileTreeNode } from "@vast/file-explorer";
+import type { FileTreeNode } from "@brickly/file-explorer";
 
 import {
   collapseDirectory,
   expandDirectory,
   getFileTree,
   onFileTreeUpdate,
-} from "@vast/file-explorer";
+} from "@brickly/file-explorer";
 
 export function useFileTree() {
   const TreeNodes = ref<FileTreeNode[]>([]);

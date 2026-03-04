@@ -14,6 +14,6 @@ export function rootDirectoryWatcher(server: ViteDevServer): void {
     if (event === "unlink" || event === "unlinkDir")
       await onFileAndFolderDelete(absoluteFilePath);
 
-    server.ws.send("vast:file-tree-updated");
+    server.ws.send("brickly:file-tree-updated");
   });
 }

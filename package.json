@@ -1,8 +1,8 @@
 {
-  "name": "@vast/file-explorer",
+  "name": "@brickly/file-explorer",
   "type": "module",
   "version": "1.0.0",
-  "description": "Core file system bridge for VAST. Provides secure, development-time access to project files and directories, enabling VAST's visual builder to read and write components directly to your local Vue project.",
+  "description": "Core file system bridge for brickly. Provides secure, development-time access to project files and directories, enabling brickly's visual builder to read and write components directly to your local Vue project.",
   "author": "Festus-Olaleye Oluwafisayomi Oluwaseunfunmi",
   "license": "MIT",
   "homepage": "https://github.com/OlaleyeFisayo/vast-file-explorer#readme",
@@ -14,7 +14,7 @@
     "url": "https://github.com/OlaleyeFisayo/vast-file-explorer/issues"
   },
   "keywords": [
-    "vast",
+    "brickly",
     "file-explorer",
     "backend",
     "chokidar",

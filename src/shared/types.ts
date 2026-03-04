@@ -1,4 +1,4 @@
-export type VastFileExplorerOptions = {
+export type FileExplorerOptions = {
   rootPath?: string;
   hiddenFiles?: Array<string>;
 };

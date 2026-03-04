@@ -2,9 +2,9 @@ import axios from "axios";
 import fs from "node:fs";
 import path from "node:path";
 
-import type { VastFileExplorerOptions } from "./types";
+import type { FileExplorerOptions } from "./types";
 
-export const vastFileExplorerOptionsDefault: VastFileExplorerOptions = {
+export const fileExplorerOptionsDefault: FileExplorerOptions = {
   rootPath: "./",
   hiddenFiles: [
     "node_modules",
@@ -15,7 +15,7 @@ export const vastFileExplorerOptionsDefault: VastFileExplorerOptions = {
   ],
 };
 
-export const serverBaseURL = "/_vast-file-explorer";
+export const serverBaseURL = "/_brickly-file-explorer";
 
 export const clientInstance = axios.create({
   baseURL: serverBaseURL,
@@ -23,9 +23,9 @@ export const clientInstance = axios.create({
 });
 
 // eslint-disable-next-line import/no-mutable-exports
-export let globalOptions: VastFileExplorerOptions = {};
+export let globalOptions: FileExplorerOptions = {};
 
-export function setGlobalOptions(options: VastFileExplorerOptions): void {
+export function setGlobalOptions(options: FileExplorerOptions): void {
   const cwd = process.cwd();
   const rootPath = path.resolve(cwd, options.rootPath ?? "./");
 
@@ -38,7 +38,7 @@ export function setGlobalOptions(options: VastFileExplorerOptions): void {
   }
 
   globalOptions = {
-    ...vastFileExplorerOptionsDefault,
+    ...fileExplorerOptionsDefault,
     ...options,
   };
 }
