@@ -6,7 +6,7 @@ Core file system bridge for VAST. This tool provides secure, development-time ac
 
 - **File Operations**: Create, Update, Delete (CUD) for files.
 - **Directory Operations**: Create, Delete, Collapse, Expand directories.
-- **Management**: Move, Copy, and Rename files and folders.
+- **Management**: Move, Copy, and Rename files and folders (unified operations for both).
 - **Navigation**: Open files and folders in the system's file manager.
 - **Search**: Efficient file search functionality.
 - **File Tree**: Generate and update file tree structures for UI visualization.
@@ -50,24 +50,21 @@ export default defineConfig({
 
 The following functions are exported from `@vast/file-explorer` and can be used to interact with the file system.
 
-| Function              | Signature                                                      | Description                                                                |
-| --------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `collapseDirectory`   | `(path: string): Promise<FileTreeNode[]>`                      | Collapses a directory in the file tree.                                    |
-| `copyFile`            | `(sourcePath: string, destinationDir?: string): Promise<void>` | Copies a file to a new location.                                           |
-| `copyFolder`          | `(sourcePath: string, destinationDir?: string): Promise<void>` | Copies a folder to a new location.                                         |
-| `createFile`          | `(name: string, dirPath?: string): Promise<void>`              | Creates a new file.                                                        |
-| `createFolder`        | `(name: string, dirPath?: string): Promise<void>`              | Creates a new folder.                                                      |
-| `deleteFile`          | `(path: string): Promise<void>`                                | Deletes a file.                                                            |
-| `deleteFolder`        | `(path: string): Promise<void>`                                | Deletes a folder.                                                          |
-| `expandDirectory`     | `(path: string): Promise<FileTreeNode[]>`                      | Expands a directory in the file tree.                                      |
-| `onFileTreeUpdate`    | `(callback: () => void): void`                                 | Registers a callback to be called when the file tree is updated.           |
-| `getFileTree`         | `(): Promise<FileTreeNode[]>`                                  | Retrieves the entire file tree.                                            |
-| `getRootPathBasename` | `(): Promise<string>`                                          | Retrieves the basename of the root path.                                   |
-| `moveFile`            | `(sourcePath: string, destinationDir?: string): Promise<void>` | Moves a file to a new location.                                            |
-| `moveFolder`          | `(sourcePath: string, destinationDir?: string): Promise<void>` | Moves a folder to a new location.                                          |
-| `openInFileManager`   | `(path: string): Promise<void>`                                | Opens a file or folder in the file manager (Windows, macOS, & Linux only). |
-| `rename`              | `(path: string, newName: string): Promise<void>`               | Renames a file or folder.                                                  |
-| `searchFiles`         | `(query: string): Promise<FileTreeNode[]>`                     | Searches for files based on a query.                                       |
+| Function            | Signature                                                      | Description                                                                |
+| ------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `collapseDirectory` | `(path: string): Promise<FileTreeNode[]>`                      | Collapses a directory in the file tree.                                    |
+| `copy`              | `(sourcePath: string, destinationDir?: string): Promise<void>` | Copies a file or folder to a new location.                                 |
+| `createFile`        | `(name: string, dirPath?: string): Promise<void>`              | Creates a new file.                                                        |
+| `createFolder`      | `(name: string, dirPath?: string): Promise<void>`              | Creates a new folder.                                                      |
+| `deleteItem`        | `(path: string): Promise<void>`                                | Deletes a file or folder.                                                  |
+| `expandDirectory`   | `(path: string): Promise<FileTreeNode[]>`                      | Expands a directory in the file tree.                                      |
+| `onFileTreeUpdate`  | `(callback: () => void): void`                                 | Registers a callback to be called when the file tree is updated.           |
+| `getFileTree`       | `(): Promise<FileTreeNode[]>`                                  | Retrieves the entire file tree.                                            |
+| `getRootInfo`       | `(): Promise<{ basename: string; rootPath: string }>`          | Retrieves the basename and absolute path of the root directory.            |
+| `move`              | `(sourcePath: string, destinationDir?: string): Promise<void>` | Moves a file or folder to a new location.                                  |
+| `openInFileManager` | `(path: string): Promise<void>`                                | Opens a file or folder in the file manager (Windows, macOS, & Linux only). |
+| `rename`            | `(path: string, newName: string): Promise<void>`               | Renames a file or folder.                                                  |
+| `searchFiles`       | `(query: string): Promise<FileTreeNode[]>`                     | Searches for files based on a query.                                       |
 
 ## Client Data Handling
 
@@ -77,23 +74,24 @@ When using the client-side functions, it's important to handle the data correctl
 
 Functions like `getFileTree`, `expandDirectory`, and `collapseDirectory` return the updated file tree structure. You should use this returned data to overwrite your local state.
 
-Other functions such as `createFile`, `deleteFile`, `copyFile`, etc., trigger a file system watcher that uses Hot Module Replacement (HMR) to notify the client of changes. You can listen for these changes using the `onFileTreeUpdate` function and refetch the file tree.
+Other functions such as `createFile`, `createFolder`, `deleteItem`, `copy`, etc., trigger a file system watcher that uses Hot Module Replacement (HMR) to notify the client of changes. You can listen for these changes using the `onFileTreeUpdate` function and refetch the file tree.
 
 Here's an example of how you might manage the file tree state in a Vue composable:
 
 ```typescript
-import type { FileTreeNode } from " @vast/file-explorer";
+import {
+  onBeforeMount,
+  ref,
+} from "vue";
+
+import type { FileTreeNode } from "@vast/file-explorer";
 
 import {
   collapseDirectory,
   expandDirectory,
   getFileTree,
   onFileTreeUpdate,
-} from " @vast/file-explorer";
-import {
-  onBeforeMount,
-  ref,
-} from "vue";
+} from "@vast/file-explorer";
 
 export function useFileTree() {
   const TreeNodes = ref<FileTreeNode[]>([]);
