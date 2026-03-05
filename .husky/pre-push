@@ -1,0 +1,20 @@
+#!/bin/sh
+
+BRANCH=$(git symbolic-ref --short HEAD)
+
+# Block direct pushes to main
+if [ "$BRANCH" = "main" ]; then
+  echo "Error: Direct pushes to main are not allowed. Please use a pull request."
+  exit 1
+fi
+
+# Fetch latest main silently
+git fetch origin main --quiet
+
+# Check if current branch is behind main
+BEHIND=$(git rev-list --count HEAD..origin/main)
+
+if [ "$BEHIND" -gt 0 ]; then
+  echo "Error: Your branch is $BEHIND commit(s) behind origin/main. Update your branch with the latest changes from main before pushing."
+  exit 1
+fi
