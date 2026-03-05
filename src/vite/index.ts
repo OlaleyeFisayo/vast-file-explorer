@@ -5,7 +5,7 @@ import type { FileExplorerOptions } from "../shared/types";
 import { initializeFileTree } from "../core/initialize";
 import { rootDirectoryWatcher } from "../core/watcher/index";
 import expressServer from "../server/index";
-import { setGlobalOptions } from "../shared/variables";
+import { setGlobalOptions } from "../shared/utils/set-global-options";
 
 export function fileExplorer(userOptions: FileExplorerOptions = {}): Plugin {
   setGlobalOptions(userOptions);

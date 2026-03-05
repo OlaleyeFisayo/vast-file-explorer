@@ -7,6 +7,7 @@ import path from "node:path";
 
 import type { FileTreeNode } from "../../core/types";
 
+import { isHidden } from "../../shared/utils/hidden-files-checker";
 import { globalOptions } from "../../shared/variables";
 
 export async function searchFiles(query: string): Promise<FileTreeNode[]> {
@@ -45,10 +46,10 @@ export async function searchFiles(query: string): Promise<FileTreeNode[]> {
     }
 
     for (const entry of entries) {
-      if (globalOptions?.hiddenFiles?.includes(entry.name))
-        continue;
-
       const fullPath = path.join(currentPath, entry.name);
+
+      if (isHidden(path.relative(resolvedRoot, fullPath)))
+        continue;
 
       const nameMatches = entry.name.toLowerCase().includes(lowerQuery);
 

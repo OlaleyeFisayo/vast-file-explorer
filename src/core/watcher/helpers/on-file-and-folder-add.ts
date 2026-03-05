@@ -6,6 +6,7 @@ import path from "node:path";
 
 import type { FileTreeNode } from "../../types";
 
+import { isHidden } from "../../../shared/utils/hidden-files-checker";
 import { globalOptions } from "../../../shared/variables";
 import { sortFileTreeNodes } from "../../utils";
 import {
@@ -16,10 +17,6 @@ import {
 export async function onFileAndFolderAdd(filePath: string): Promise<void> {
   const realFilePath = await realpath(filePath);
   const fileName = path.basename(realFilePath);
-
-  if (globalOptions?.hiddenFiles?.includes(fileName))
-    return;
-
   const parentDir = path.dirname(realFilePath);
   const fileStat = await stat(realFilePath);
   const isDirectory = fileStat.isDirectory();
@@ -27,6 +24,9 @@ export async function onFileAndFolderAdd(filePath: string): Promise<void> {
   const resolvedRoot = await realpath(path.resolve(globalOptions.rootPath!));
   const absolutePathNode = realFilePath;
   const relativePathNode = path.relative(resolvedRoot, realFilePath);
+
+  if (isHidden(relativePathNode))
+    return;
 
   let newNode: FileTreeNode;
 

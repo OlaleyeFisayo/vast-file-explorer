@@ -4,6 +4,7 @@ import path from "node:path";
 import type { FileTreeNode } from "../../core/types";
 
 import { SearchIndex } from "../../core/variables";
+import { isHidden } from "../../shared/utils/hidden-files-checker";
 import { globalOptions } from "../../shared/variables";
 
 export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
@@ -26,10 +27,12 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
     const resolvedRoot = await fs.realpath(path.resolve(globalOptions.rootPath!));
 
     for (const entry of entries) {
-      if (globalOptions?.hiddenFiles?.includes(entry.name))
+      const fullPath = path.join(absoluteDirPath, entry.name);
+      const relativePathNode = path.relative(resolvedRoot, fullPath);
+
+      if (isHidden(relativePathNode))
         continue;
 
-      const fullPath = path.join(absoluteDirPath, entry.name);
       const isDirectory = entry.isDirectory();
 
       let node = SearchIndex.get(fullPath);
@@ -37,7 +40,6 @@ export async function getFileTree(dirPath: string): Promise<FileTreeNode[]> {
 
       if (!node || (isDirectory && existingType !== "directory") || (!isDirectory && existingType !== "file")) {
         const absolutePathNode = fullPath;
-        const relativePathNode = path.relative(resolvedRoot, fullPath);
 
         if (isDirectory) {
           node = {
