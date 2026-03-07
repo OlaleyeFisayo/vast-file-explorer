@@ -2,7 +2,7 @@
   "name": "@brickly/file-explorer",
   "type": "module",
   "version": "1.0.1",
-  "description": "Core file system bridge for brickly. Provides secure, development-time access to project files and directories, enabling brickly's visual builder to read and write components directly to your local Vue project.",
+  "description": "A Vite plugin that provides secure, development-time access to your project's file system.",
   "author": "Festus-Olaleye Oluwafisayomi Oluwaseunfunmi",
   "license": "MIT",
   "homepage": "https://github.com/OlaleyeFisayo/brickly-file-explorer#readme",

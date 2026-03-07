@@ -1,6 +1,6 @@
 # Brickly File Explorer
 
-Core file system bridge for Brickly. This tool provides secure, development-time access to project files and directories, enabling Brickly's visual builder to read and write components directly to your local Vue project.
+A Vite plugin that provides secure, development-time access to your project's file system. Enables tools and UIs to read, write, and explore local project files and directories via a built-in Express server.
 
 ## Features
 
@@ -105,14 +105,9 @@ Functions like `getFileTree`, `expandDirectory`, and `collapseDirectory` return 
 
 Other functions such as `createFile`, `createFolder`, `deleteItem`, `copy`, etc., trigger a file system watcher that uses Hot Module Replacement (HMR) to notify the client of changes. You can listen for these changes using the `onFileTreeUpdate` function and refetch the file tree.
 
-Here's an example of how you might manage the file tree state in a Vue composable:
+Here's an example of how you might manage the file tree state in TypeScript:
 
 ```typescript
-import {
-  onBeforeMount,
-  ref,
-} from "vue";
-
 import type { FileTreeNode } from "@brickly/file-explorer";
 
 import {
@@ -122,35 +117,24 @@ import {
   onFileTreeUpdate,
 } from "@brickly/file-explorer";
 
-export function useFileTree() {
-  const TreeNodes = ref<FileTreeNode[]>([]);
+let treeNodes: FileTreeNode[] = [];
 
-  const fetchTree = async () => {
-    const data = await getFileTree();
-    TreeNodes.value = data;
-  };
-
-  const expand = async (path: string) => {
-    const data = await expandDirectory(path);
-    TreeNodes.value = data;
-  };
-
-  const collapse = async (path: string) => {
-    const data = await collapseDirectory(path);
-    TreeNodes.value = data;
-  };
-
-  onBeforeMount(async () => {
-    await fetchTree();
-    onFileTreeUpdate(async () => {
-      await fetchTree();
-    });
-  });
-
-  return {
-    TreeNodes,
-    collapse,
-    expand,
-  };
+async function fetchTree() {
+  treeNodes = await getFileTree();
+  console.log(treeNodes);
 }
+
+async function expand(path: string) {
+  treeNodes = await expandDirectory(path);
+}
+
+async function collapse(path: string) {
+  treeNodes = await collapseDirectory(path);
+}
+
+await fetchTree();
+
+onFileTreeUpdate(async () => {
+  await fetchTree();
+});
 ```
