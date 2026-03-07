@@ -121,7 +121,6 @@ let treeNodes: FileTreeNode[] = [];
 
 async function fetchTree() {
   treeNodes = await getFileTree();
-  console.log(treeNodes);
 }
 
 async function expand(path: string) {
