@@ -11,6 +11,7 @@ export * from "./features/get-file-tree/client";
 export * from "./features/get-root-info/client";
 export * from "./features/move/client";
 export * from "./features/open-in-file-manager/client";
+export * from "./features/open-in-ide/client";
 export * from "./features/rename/client";
 export * from "./features/search/client";
 export * from "./features/set-file-content/client";

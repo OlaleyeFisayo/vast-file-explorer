@@ -11,6 +11,7 @@ import { getFileTreeHandler } from "../features/get-file-tree/handler";
 import { getRootInfoHandler } from "../features/get-root-info/handler";
 import { moveHandler } from "../features/move/handler";
 import { openInFileManagerHandler } from "../features/open-in-file-manager/handler";
+import { openInIdeHandler } from "../features/open-in-ide/handler";
 import { renameItemHandler } from "../features/rename/handler";
 import { searchHandler } from "../features/search/handler";
 import { setFileContentHandler } from "../features/set-file-content/handler";
@@ -30,6 +31,7 @@ expressRouter
   .post("/expand", expandDirectoryHandler)
   .post("/collapse", collapseDirectoryHandler)
   .post("/open-in-file-manager", openInFileManagerHandler)
+  .post("/open-in-ide", openInIdeHandler)
   .get("/content", getFileContentHandler)
   .post("/content", setFileContentHandler);
 

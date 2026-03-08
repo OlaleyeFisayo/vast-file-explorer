@@ -12,6 +12,7 @@ export function fileExplorer(userOptions: FileExplorerOptions = {}): Plugin {
 
   return {
     name: "@brickly/file-explorer",
+    apply: "serve",
     async configureServer(server) {
       await initializeFileTree();
       server.middlewares.use(expressServer);

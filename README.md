@@ -4,10 +4,10 @@ A Vite plugin that provides secure, development-time access to your project's fi
 
 ## Features
 
-- **File Operations**: Create, Update, Delete (CUD) for files.
+- **File Operations**: Create, Read, Update, Delete (CRUD) for files.
 - **Directory Operations**: Create, Delete, Collapse, Expand directories.
 - **Management**: Move, Copy, and Rename files and folders (unified operations for both).
-- **Navigation**: Open files and folders in the system's file manager.
+- **Navigation**: Open files and folders in the system's file manager, or in an IDE.
 - **Search**: Efficient file search functionality.
 - **File Tree**: Generate and update file tree structures for UI visualization.
 
@@ -47,6 +47,7 @@ export default defineConfig({
 | `rootPath`         | `string`   | `'./'`                | The root directory the plugin will watch and manage. Must be within the project's directory.         |
 | `hiddenFiles`      | `string[]` | `['.git', '.vscode']` | Additional files or directories to exclude from the file tree. Merged with any `.gitignore` entries. |
 | `respectGitIgnore` | `boolean`  | `true`                | When enabled, reads `.gitignore` in the root directory and excludes its entries from the file tree.  |
+| `defaultIde`       | `"vscode"` | `undefined`           | The IDE to open files in. Must be set to use `openInIde`.                                            |
 
 ## Types
 
@@ -92,6 +93,7 @@ The following functions are exported from `@brickly/file-explorer` and can be us
 | `move`              | `(sourcePath: string, destinationDir?: string): Promise<void>` | Moves a file or folder to a new location.                                  |
 | `copy`              | `(sourcePath: string, destinationDir?: string): Promise<void>` | Copies a file or folder to a new location.                                 |
 | `openInFileManager` | `(path: string): Promise<void>`                                | Opens a file or folder in the file manager (Windows, macOS, & Linux only). |
+| `openInIde`         | `(path: string): Promise<void>`                                | Opens a file in the configured IDE. Requires `defaultIde` to be set.       |
 | `onFileTreeUpdate`  | `(callback: () => void): void`                                 | Registers a callback to be called when the file tree is updated.           |
 | `searchFiles`       | `(query: string): Promise<FileTreeNode[]>`                     | Searches for files based on a query.                                       |
 

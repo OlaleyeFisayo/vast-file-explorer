@@ -4,3 +4,4 @@ test/
 vite.config.ts
 GEMINI.md
 *.tgz
+.claude
