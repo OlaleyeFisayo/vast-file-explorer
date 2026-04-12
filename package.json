@@ -43,9 +43,10 @@
     "lint:fix": "eslint --fix",
     "prepare": "husky",
     "test": "vitest",
-    "version:major": "npm verison major",
-    "version:minor": "npm verison minor",
-    "version:patch": "npm verison patch",
+    "version:major": "npm version major",
+    "version:minor": "npm version minor",
+    "version:patch": "npm version patch",
+    "release": "git push origin dev --follow-tags",
     "publish": "npm publish"
   },
   "peerDependencies": {

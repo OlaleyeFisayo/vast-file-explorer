@@ -1,15 +1,24 @@
 import express from "express";
 
 import { collapseDirectoryHandler } from "../features/collapse-directory/handler";
-import { copyHandler } from "../features/copy/handler";
+import {
+  batchCopyHandler,
+  copyHandler,
+} from "../features/copy/handler";
 import { createFileHandler } from "../features/create-file/handler";
 import { createFolderHandler } from "../features/create-folder/handler";
-import { deleteHandler } from "../features/delete/handler";
+import {
+  batchDeleteHandler,
+  deleteHandler,
+} from "../features/delete/handler";
 import { expandDirectoryHandler } from "../features/expand-directory/handler";
 import { getFileContentHandler } from "../features/get-file-content/handler";
 import { getFileTreeHandler } from "../features/get-file-tree/handler";
 import { getRootInfoHandler } from "../features/get-root-info/handler";
-import { moveHandler } from "../features/move/handler";
+import {
+  batchMoveHandler,
+  moveHandler,
+} from "../features/move/handler";
 import { openInFileManagerHandler } from "../features/open-in-file-manager/handler";
 import { openInIdeHandler } from "../features/open-in-ide/handler";
 import { renameItemHandler } from "../features/rename/handler";
@@ -26,6 +35,9 @@ expressRouter
   .post("/folder", createFolderHandler)
   .post("/copy", copyHandler)
   .post("/move", moveHandler)
+  .post("/batch-delete", batchDeleteHandler)
+  .post("/batch-copy", batchCopyHandler)
+  .post("/batch-move", batchMoveHandler)
   .post("/rename", renameItemHandler)
   .post("/delete", deleteHandler)
   .post("/expand", expandDirectoryHandler)
