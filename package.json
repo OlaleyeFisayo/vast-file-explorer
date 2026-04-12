@@ -45,9 +45,7 @@
     "test": "vitest",
     "version:major": "npm version major",
     "version:minor": "npm version minor",
-    "version:patch": "npm version patch",
-    "release": "git push origin dev --follow-tags",
-    "publish": "npm publish"
+    "version:patch": "npm version patch"
   },
   "peerDependencies": {
     "vite": "^7.3.1"
