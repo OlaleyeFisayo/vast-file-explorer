@@ -10,7 +10,7 @@ export async function openInIde(filePath: string): Promise<void> {
   } = globalOptions;
 
   if (!defaultIde)
-    throw new Error("To use open in ide, set defaultIde in your plugin options.");
+    throw new Error("To use the open in IDE feature, make sure you set a default IDE in the brickly/file-explorer plugin.");
 
   const relativePath = path.relative(rootPath!, filePath);
 

@@ -78,24 +78,27 @@ type FileTreeNode = {
 
 The following functions are exported from `@brickly/file-explorer` and can be used to interact with the file system.
 
-| Function            | Signature                                                      | Description                                                                |
-| ------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `getRootInfo`       | `(): Promise<{ basename: string; rootPath: string }>`          | Retrieves the basename and absolute path of the root directory.            |
-| `getFileTree`       | `(): Promise<FileTreeNode[]>`                                  | Retrieves the entire file tree.                                            |
-| `collapseDirectory` | `(path: string): Promise<FileTreeNode[]>`                      | Collapses a directory in the file tree.                                    |
-| `expandDirectory`   | `(path: string): Promise<FileTreeNode[]>`                      | Expands a directory in the file tree.                                      |
-| `getFileContent`    | `(path: string): Promise<string>`                              | Retrieves the content of a file as a string.                               |
-| `setFileContent`    | `(path: string, content: string): Promise<void>`               | Writes content to a file, overwriting its current content.                 |
-| `createFile`        | `(name: string, dirPath?: string): Promise<void>`              | Creates a new file.                                                        |
-| `createFolder`      | `(name: string, dirPath?: string): Promise<void>`              | Creates a new folder.                                                      |
-| `deleteItem`        | `(path: string): Promise<void>`                                | Deletes a file or folder.                                                  |
-| `rename`            | `(path: string, newName: string): Promise<void>`               | Renames a file or folder.                                                  |
-| `move`              | `(sourcePath: string, destinationDir?: string): Promise<void>` | Moves a file or folder to a new location.                                  |
-| `copy`              | `(sourcePath: string, destinationDir?: string): Promise<void>` | Copies a file or folder to a new location.                                 |
-| `openInFileManager` | `(path: string): Promise<void>`                                | Opens a file or folder in the file manager (Windows, macOS, & Linux only). |
-| `openInIde`         | `(path: string): Promise<void>`                                | Opens a file in the configured IDE. Requires `defaultIde` to be set.       |
-| `onFileTreeUpdate`  | `(callback: () => void): void`                                 | Registers a callback to be called when the file tree is updated.           |
-| `searchFiles`       | `(query: string): Promise<FileTreeNode[]>`                     | Searches for files based on a query.                                       |
+| Function            | Signature                                                                   | Description                                                                                                                           |
+| ------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `getRootInfo`       | `(): Promise<{ basename: string; rootPath: string }>`                       | Retrieves the basename and absolute path of the root directory.                                                                       |
+| `getFileTree`       | `(): Promise<FileTreeNode[]>`                                               | Retrieves the entire file tree.                                                                                                       |
+| `collapseDirectory` | `(path: string): Promise<FileTreeNode[]>`                                   | Collapses a directory in the file tree.                                                                                               |
+| `expandDirectory`   | `(path: string): Promise<FileTreeNode[]>`                                   | Expands a directory in the file tree.                                                                                                 |
+| `getFileContent`    | `(path: string): Promise<string>`                                           | Retrieves the content of a file as a string.                                                                                          |
+| `setFileContent`    | `(path: string, content: string): Promise<void>`                            | Writes content to a file, overwriting its current content.                                                                            |
+| `createFile`        | `(name: string, dirPath?: string): Promise<void>`                           | Creates a new file.                                                                                                                   |
+| `createFolder`      | `(name: string, dirPath?: string): Promise<void>`                           | Creates a new folder.                                                                                                                 |
+| `deleteItem`        | `(path: string): Promise<void>`                                             | Deletes a file or folder.                                                                                                             |
+| `deleteItems`       | `(paths: string[]): Promise<void>`                                          | Deletes multiple files or folders.                                                                                                    |
+| `rename`            | `(path: string, newName: string): Promise<void>`                            | Renames a file or folder.                                                                                                             |
+| `move`              | `(sourcePath: string, destinationDir?: string): Promise<void>`              | Moves a file or folder to a new location.                                                                                             |
+| `moveItems`         | `(items: { sourcePath: string; destinationDir?: string }[]): Promise<void>` | Moves multiple files or folders.                                                                                                      |
+| `copy`              | `(sourcePath: string, destinationDir?: string): Promise<void>`              | Copies a file or folder to a new location.                                                                                            |
+| `copyItems`         | `(items: { sourcePath: string; destinationDir?: string }[]): Promise<void>` | Copies multiple files or folders.                                                                                                     |
+| `openInFileManager` | `(path: string): Promise<void>`                                             | Opens a file or folder in the file manager (Windows, macOS, & Linux only).                                                            |
+| `openInIde`         | `(path: string): Promise<void>`                                             | Opens a file in the configured IDE. To use this feature, make sure you set a default IDE in the brickly/file-explorer plugin options. |
+| `onFileTreeUpdate`  | `(callback: () => void): void`                                              | Registers a callback to be called when the file tree is updated.                                                                      |
+| `searchFiles`       | `(query: string): Promise<FileTreeNode[]>`                                  | Searches for files based on a query.                                                                                                  |
 
 ## Client Data Handling
 

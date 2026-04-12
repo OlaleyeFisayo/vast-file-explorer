@@ -6,6 +6,12 @@ import path from "node:path";
 
 import { globalOptions } from "../../shared/variables";
 
+export async function copyItems(items: { sourcePath: string; destinationDir?: string }[]): Promise<void> {
+  for (const item of items) {
+    await copyItem(item.sourcePath, item.destinationDir);
+  }
+}
+
 export async function copyItem(sourcePath: string, destinationDir?: string): Promise<void> {
   const targetDir: string = destinationDir ?? globalOptions.rootPath!;
 

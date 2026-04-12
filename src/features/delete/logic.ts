@@ -3,6 +3,12 @@ import {
   rm,
 } from "node:fs/promises";
 
+export async function deleteItems(paths: string[]): Promise<void> {
+  for (const path of paths) {
+    await deleteItem(path);
+  }
+}
+
 export async function deleteItem(path: string): Promise<void> {
   const itemPath = await realpath(path);
   try {

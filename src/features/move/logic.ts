@@ -1,6 +1,12 @@
 import { copyItem } from "../copy/logic";
 import { deleteItem } from "../delete/logic";
 
+export async function moveItems(items: { sourcePath: string; destinationDir?: string }[]): Promise<void> {
+  for (const item of items) {
+    await moveItem(item.sourcePath, item.destinationDir);
+  }
+}
+
 export async function moveItem(sourcePath: string, destinationDir?: string): Promise<void> {
   try {
     await copyItem(sourcePath, destinationDir);
