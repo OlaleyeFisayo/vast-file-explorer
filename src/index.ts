@@ -15,3 +15,4 @@ export * from "./features/open-in-ide/client";
 export * from "./features/rename/client";
 export * from "./features/search/client";
 export * from "./features/set-file-content/client";
+export type { FileExplorerOptions } from "./shared/types";
