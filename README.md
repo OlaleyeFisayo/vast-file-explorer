@@ -100,6 +100,41 @@ The following functions are exported from `@brickly/file-explorer` and can be us
 | `onFileTreeUpdate`  | `(callback: () => void): void`                                              | Registers a callback to be called when the file tree is updated.                                                                      |
 | `searchFiles`       | `(query: string): Promise<FileTreeNode[]>`                                  | Searches for files based on a query.                                                                                                  |
 
+### Standalone Usage
+
+For use outside of a Vite dev server — for example, inside a custom Express server or a CLI tool like `@brickly/vue` — import from `@brickly/file-explorer/standalone`:
+
+```typescript
+import { createBricklyServer } from "@brickly/file-explorer/standalone";
+
+const {
+  app,
+  events
+} = await createBricklyServer({
+  rootPath: "./",
+  defaultIde: "vscode",
+  hiddenFiles: [".git", ".vscode", "node_modules"],
+  respectGitIgnore: true,
+});
+
+// Mount the file explorer routes on your Express app
+expressApp.use(app);
+
+// Listen for file system changes and notify clients however you like
+events.on("file-changed", () => {
+  // e.g. broadcast over a WebSocket
+});
+```
+
+`createBricklyServer(options)` accepts the same `FileExplorerOptions` as the Vite plugin and returns:
+
+| Property | Type                  | Description                                                                        |
+| -------- | --------------------- | ---------------------------------------------------------------------------------- |
+| `app`    | `express.Application` | Express app with all file API routes mounted at `/_brickly-file-explorer`          |
+| `events` | `EventEmitter`        | Emits `"file-changed"` whenever a file or directory is added, removed, or modified |
+
+> **Note:** `onFileTreeUpdate` on the client side automatically switches from Vite HMR to a native WebSocket when the consuming app is built with the `VITE_BRICKLY_STANDALONE` Vite define set to `true`.
+
 ## Client Data Handling
 
 When using the client-side functions, it's important to handle the data correctly to ensure your UI stays in sync with the file system.

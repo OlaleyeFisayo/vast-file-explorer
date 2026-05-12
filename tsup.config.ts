@@ -4,6 +4,7 @@ export default defineConfig({
   entry: [
     "src/index.ts",
     "src/vite/index.ts",
+    "src/standalone/index.ts",
   ],
   format: ["esm"],
   dts: true,
@@ -16,5 +17,6 @@ export default defineConfig({
     "axios",
     "zod",
     "vite",
+    "chokidar",
   ],
 });
